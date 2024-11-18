@@ -1,0 +1,31 @@
+<div class="mb-4">
+    <h2 class="text-success">
+        Zaloguj się
+    </h2>
+    <div>
+        Nie masz konta?
+        <a routerLink="/signup" class="text-decoration-none fw-medium text-success d-inline-block">Zarejestruj się</a>
+    </div>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <div class="mb-3">
+        <input class="form-control bg-body-secondary" placeholder="Adres email" formControlName="email">
+        <div class="error-feedback" *ngIf="hasDisplayableError('email') && form.controls['email'].hasError('required')">
+            Proszę podać swój adres email.
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <input class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
+        <div class="error-feedback" *ngIf="hasDisplayableError('password') && form.controls['password'].hasError('required')">
+            Proszę podać swoje hasło.
+        </div>
+    </div>
+
+    <div class="mt-4">
+        <button type="submit" class="btn btn-success w-100 rounded-3">
+            Zaloguj się
+        </button>
+    </div>
+</form>

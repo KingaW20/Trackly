@@ -1,0 +1,64 @@
+src
+|--app
+|  |-- payments
+|  |   |-- payments.component.ts|.html                  (*)
+|  |   '-- payment-form (cmp. folder)                   (*)
+|  |
+|  |-- user
+|  |   |-- user.component.ts|.html                      (**)
+|  |   |-- login (cmp. folder)                          (**)
+|  |   '-- registration (cmp. folder)                   (**)
+|  |
+|  |-- authorizeDemo                                    (**)
+|  |   |-- admin-only.component.ts|.html
+|  |   |-- admin-or-teacher.component.ts|.html
+|  |   |-- apply-for-maternity-leave.component.ts|.html
+|  |   |-- library-members-only.component.ts|.html
+|  |   '-- under10-and-female.component.ts|.html
+|  |
+|  |-- layouts                                          (**)
+|  |   '-- main-layout.component.ts|.html (cmp. folder)
+|  |
+|  |-- dashboard (cmp. folder)                          (**)
+|  |
+|  |-- forbidden (cmp. folder)                          (**)
+|  |
+|  |-- shared
+|  |   |-- auth.guard.ts                                (**)
+|  |   |-- auth.interceptor.ts                          (**)
+|  |   |-- constants.ts                                 (**)
+|  |   |-- utils                                        (**)
+|  |   |   '-- claimReq-utils.ts
+|  |   |-- directives                                   (**)
+|  |   |   '-- hide-if-claims-not-met.directive.ts
+|  |   |-- payment.model.ts                             (*)
+|  |   |-- pipes                                        (**)
+|  |   |   '-- first-key.pipe.ts
+|  |   '-- services
+|  |       |-- payment.service.ts                       (*)
+|  |       |-- user.service.ts                          (**)
+|  |       '-- auth.service.ts                          (**)
+|  |
+|  |-- app.config.ts 
+|  '-- app.routes.ts                                    
+|
+|--styles.css (global css rules)
+'--index.html (cdn path for bootstrap & fa icons)
+
+
+
+To create that structure:
+- otwarcie nowego terminala:                          > prompt $g 
+- utworzenie komponentu:                              > ng g c payments
+- utworzenie komponentu w istniejącym folderze:       > ng g c payments/payment-form
+- utworzenie serwisu:                                 > ng g s shared/services/payment
+- utworzenie modelu (klasy):                          > ng g cl shared/payment --type=model
+- utworzenie pipe:                                    > ng g p shared/pipes/first-key
+- utworzenie guard (do autoryzacji):                  > ng g guard shared/auth
+- utworzenie zmiennych środowiskowych:                > ng generate environments
+- utworzenie interceptora:                            > ng generate interceptor shared/auth
+- utworzenie directive:                               > ng g d shared/directives/hide-if-claims-not-met
+
+
+* płatności - CRUD
+** uwierzytelnianie i autoryzacja z użytkownikami itd.

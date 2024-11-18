@@ -1,0 +1,16 @@
+# ASP.NET Core - wykluczenie katalogów tymczasowych i plików binarnych
+bin/
+obj/
+*.user
+*.vs
+*.db
+
+# Angular - wykluczenie node_modules i plików tymczasowych
+TracklyApp/node_modules/
+TracklyApp/dist/
+Trackly/Trackly/Migrations
+*.log
+
+# Systemowe pliki tymczasowe
+.DS_Store
+Thumbs.db
