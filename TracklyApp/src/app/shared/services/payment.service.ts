@@ -3,13 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { environment } from '../../../environments/environment';
 import { Payment } from '../payment.model';
+import { Paths } from '../constants';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PaymentService {
 
-  url: string = environment.apiBaseUrl + "/Payment"
+  url: string = environment.apiBaseUrl + "/" + Paths.PAYMENT
   list: Payment[] = []
   formData: Payment = new Payment()
   formSubmitted:boolean = false;

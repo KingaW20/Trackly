@@ -8,7 +8,7 @@ namespace Trackly.Extensions
         {
             //To allow calls from the frontend 
             app.UseCors(options => 
-                options.WithOrigins("http://localhost:4200")
+                options.WithOrigins(Constants.Paths.FrontBasicURL)
                         .AllowAnyMethod()
                         .AllowAnyHeader()
             );
@@ -18,7 +18,7 @@ namespace Trackly.Extensions
 
         public static IServiceCollection AddAppConfig(this IServiceCollection services, IConfiguration config)
         {
-            services.Configure<AppSettings>(config.GetSection("AppSettings"));
+            services.Configure<AppSettings>(config.GetSection(Constants.Settings.AppSettings));
 
             return services;
         }

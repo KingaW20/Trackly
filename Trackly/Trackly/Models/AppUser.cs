@@ -6,12 +6,12 @@ namespace Trackly.Models
     public class AppUser : IdentityUser
     {
         [PersonalData]
-        [Column(TypeName ="nvarchar(150)")]
-        public string FullName { get; set; }
+        [Column(TypeName = "nvarchar(150)")]
+        public string FullName { get; set; } = "";
 
         [PersonalData]
         [Column(TypeName = "nvarchar(150)")]
-        public string Gender { get; set; }
+        public string Gender { get; set; } = "";
 
         [PersonalData]
         public DateOnly DateOfBirth { get; set; }

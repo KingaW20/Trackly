@@ -5,6 +5,8 @@ import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
+import { FormUtilsService } from '../../shared/services/form-utils.service';
+import { Paths } from '../../shared/constants';
 
 @Component({
   selector: 'app-registration',
@@ -17,6 +19,7 @@ export class RegistrationComponent implements OnInit {
 
   form: FormGroup;
   isSubmitted: boolean = false;
+  paths = Paths
 
   //https://angular.dev/api/forms/ValidatorFn#
   passwordMatchValidator: ValidatorFn = (control: AbstractControl) : null => {
@@ -36,7 +39,8 @@ export class RegistrationComponent implements OnInit {
     public formBuilder : FormBuilder, 
     private authService: AuthService, 
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    private formUtilsService: FormUtilsService
   ) { 
     this.form = this.formBuilder.group({
       fullName : ['', Validators.required],
@@ -92,11 +96,8 @@ export class RegistrationComponent implements OnInit {
     }
   }
 
-  //To show errors only to invalid SUBMITTED form or touched inputPlace
-  //We can add to return (... || Boolean(control?.dirty)) - that means that error will show up during writing
   hasDisplayableError(controlName: string): boolean {
-    const control = this.form.get(controlName);
-    return Boolean(control?.invalid) && (this.isSubmitted || Boolean(control?.touched))
+    return this.formUtilsService.hasDisplayableError(this.form, controlName, this.isSubmitted);
   }
 
 }

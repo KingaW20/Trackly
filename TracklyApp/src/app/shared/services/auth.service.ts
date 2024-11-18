@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { environment } from '../../../environments/environment';
-import { TOKEN_KEY } from '../constants';
+import { TOKEN_KEY, Paths, Roles, Values } from '../constants';
 
 
 @Injectable({
@@ -19,14 +19,14 @@ export class AuthService {
     //instead of registration form, there should be some other 
     //form to update these details of the user
     //TODO: change this to ie. 2-step form
-    formData.role = "Teacher"
-    formData.gender = "Female"
+    formData.role = Roles.TEACHER
+    formData.gender = Values.FEMALE
     formData.age = 35
-    return this.http.post(this.baseURL + '/signup', formData);
+    return this.http.post(this.baseURL + "/" + Paths.SIGN_UP, formData);
   }
 
   signin(formData: any) {
-    return this.http.post(this.baseURL + '/signin', formData);
+    return this.http.post(this.baseURL + "/" + Paths.SIGN_IN, formData);
   }
   
   isLoggedId() {

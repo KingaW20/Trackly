@@ -8,11 +8,11 @@ namespace Trackly.Extensions
         public static IServiceCollection InjectDbContexts(this IServiceCollection services, IConfiguration config)
         {
             services.AddDbContext<AppDbContext>(
-                options => options.UseSqlServer(config.GetConnectionString("DevConnection")));
+                options => options.UseSqlServer(config.GetConnectionString(Constants.Settings.DevConnection)));
 
             //Payment Model - dependency injection to connect to db
             services.AddDbContext<PaymentContext>(
-                options => options.UseSqlServer(config.GetConnectionString("DevConnection")));
+                options => options.UseSqlServer(config.GetConnectionString(Constants.Settings.DevConnection)));
 
             return services;
         }

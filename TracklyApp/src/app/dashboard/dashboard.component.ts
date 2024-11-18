@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AuthService } from '../shared/services/auth.service';
 import { UserService } from '../shared/services/user.service';
 import { claimReq } from '../shared/utils/claimReq-utils';
 import { HideIfClaimsNotMetDirective } from '../shared/directives/hide-if-claims-not-met.directive';

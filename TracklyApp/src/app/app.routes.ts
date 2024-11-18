@@ -12,9 +12,11 @@ import { Under10AndFemaleComponent } from './authorizeDemo/under10-and-female/un
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { claimReq } from './shared/utils/claimReq-utils';
+import { PaymentsComponent } from './payments/payments.component';
+import { Paths } from './shared/constants';
 
 export const routes: Routes = [
-    { path: '', redirectTo: '/signin', pathMatch: 'full' },
+    { path: '', redirectTo: Paths.SIGN_IN, pathMatch: 'full' },
     // when we have localhost:4200/{path}, it routes us to user.component.html
     { 
         path: '', 
@@ -22,8 +24,8 @@ export const routes: Routes = [
         // in UserComponent, to route properly, we add children (in html there are router-outelts)
         // we define next routes ie. /{path}}/signup
         children : [
-            { path: 'signup', component: RegistrationComponent },
-            { path: 'signin', component: LoginComponent }
+            { path: Paths.SIGN_UP, component: RegistrationComponent },
+            { path: Paths.SIGN_IN, component: LoginComponent }
         ]
     },
     // canActivate is from auth.guard, so we can manage the access to this component/view
@@ -31,28 +33,29 @@ export const routes: Routes = [
         path: '', component: MainLayoutComponent, canActivate: [authGuard], 
         canActivateChild: [authGuard],
         children: [
-            { path: 'dashboard', component: DashboardComponent },
+            { path: Paths.DASHBOARD, component: DashboardComponent },
             { 
-                path: 'admin-only', component: AdminOnlyComponent, 
+                path: Paths.ADMIN_ONLY, component: AdminOnlyComponent, 
                 data: { claimReq: claimReq.adminOnly } 
             },
             { 
-                path: 'admin-or-teacher', component: AdminOrTeacherComponent, 
+                path: Paths.ADMIN_OR_TEACHER, component: AdminOrTeacherComponent, 
                 data: { claimReq: claimReq.adminOrTeacher } 
             },
             { 
-                path: 'apply-for-maternity-leave', component: ApplyForMaternityLeaveComponent, 
+                path: Paths.APPLY_FOR_MATERNITY_LEAVE, component: ApplyForMaternityLeaveComponent, 
                 data: { claimReq: claimReq.femaleAndTeacher } 
             },
             { 
-                path: 'library-members-only', component: LibraryMembersOnlyComponent, 
+                path: Paths.LIBRARY_MEMBERS_ONLY, component: LibraryMembersOnlyComponent, 
                 data: { claimReq: claimReq.hasLibraryId } 
             },
             { 
-                path: 'under-10-and-female', component: Under10AndFemaleComponent, 
+                path: Paths.UNDER10_AND_FEMALE, component: Under10AndFemaleComponent, 
                 data: { claimReq: claimReq.femaleAndBelow10 } 
             },
-            { path: 'forbidden', component: ForbiddenComponent }
+            { path: Paths.PAYMENT, component: PaymentsComponent },
+            { path: Paths.FORBIDDEN, component: ForbiddenComponent }
         ]
     }    
 ];

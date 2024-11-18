@@ -1,8 +1,10 @@
+import { Roles, Values } from "../constants";
+
 //To show proper elements according to policies
 export const claimReq = {
-    adminOnly : (c: any) => c.role == "Admin",
-    adminOrTeacher : (c: any) => c.role == "Admin" || c.role == "Teacher",
-    femaleAndTeacher : (c: any) => c.role == "Teacher" && c.gender == "Female",
+    adminOnly : (c: any) => c.role == Roles.ADMIN,
+    adminOrTeacher : (c: any) => c.role == Roles.ADMIN || c.role == Roles.TEACHER,
+    femaleAndTeacher : (c: any) => c.role == Roles.TEACHER && c.gender == Values.FEMALE,
     hasLibraryId : (c: any) => c.libraryID != null,
-    femaleAndBelow10 : (c: any) => c.gender == "Female" && parseInt(c.age) < 10
+    femaleAndBelow10 : (c: any) => c.gender == Values.FEMALE && parseInt(c.age) < 10
 }

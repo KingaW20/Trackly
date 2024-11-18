@@ -64,10 +64,13 @@ namespace Trackly.Extensions
                     .Build();
 
                 //Creating policies - combining roles and claims conditions
-                options.AddPolicy("HasLibraryId", policy => policy.RequireClaim("libraryID"));
-                options.AddPolicy("FemalesOnly", policy => policy.RequireClaim("gender", "Female"));
-                options.AddPolicy("Under10", policy => policy.RequireAssertion(context => 
-                    Int32.Parse(context.User.Claims.First(x => x.Type == "age").Value) < 10
+                options.AddPolicy(Constants.Policies.HasLibraryId, 
+                    policy => policy.RequireClaim(Constants.Claims.LibraryID));
+                options.AddPolicy(Constants.Policies.FemalesOnly, 
+                    policy => policy.RequireClaim(Constants.Claims.Gender, "Female"));
+                options.AddPolicy(Constants.Policies.Under10, 
+                    policy => policy.RequireAssertion(context => 
+                        Int32.Parse(context.User.Claims.First(x => x.Type == Constants.Claims.Age).Value) < 10
                 ));
             });
 

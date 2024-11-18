@@ -36,6 +36,7 @@ src
 |  |   |   '-- first-key.pipe.ts
 |  |   '-- services
 |  |       |-- payment.service.ts                       (*)
+|  |       |-- form-utils.service.ts                    (***)
 |  |       |-- user.service.ts                          (**)
 |  |       '-- auth.service.ts                          (**)
 |  |
@@ -62,3 +63,4 @@ To create that structure:
 
 * płatności - CRUD
 ** uwierzytelnianie i autoryzacja z użytkownikami itd.
+*** moje zmiany

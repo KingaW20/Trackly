@@ -3,6 +3,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { HideIfClaimsNotMetDirective } from '../../shared/directives/hide-if-claims-not-met.directive';
 import { claimReq } from '../../shared/utils/claimReq-utils';
+import { Paths } from '../../shared/constants';
 
 @Component({
   selector: 'app-main-layout',
@@ -14,6 +15,7 @@ import { claimReq } from '../../shared/utils/claimReq-utils';
 export class MainLayoutComponent {
 
   claimReq = claimReq
+  paths = Paths
 
   constructor(
     private router: Router, 
@@ -22,6 +24,6 @@ export class MainLayoutComponent {
 
   onLogout() {
     this.authService.deleteToken(); 
-    this.router.navigateByUrl('/signin')
+    this.router.navigateByUrl(Paths.SIGN_IN)
   }
 }

@@ -12,18 +12,19 @@ namespace Trackly.Controllers
 {
     public class UserRegistrationModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
-        public string FullName { get; set; }
-        public string Role { get; set; }
-        public string Gender { get; set; }
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
+        public string FullName { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string Gender { get; set; } = "";
         public int Age { get; set; }
         public int? LibraryID { get; set; }
     }
+
     public class LoginModel
     {
-        public string Email { get; set; }
-        public string Password { get; set; }
+        public string Email { get; set; } = "";
+        public string Password { get; set; } = "";
     }
 
     public static class IdentityUserEndpoints
@@ -31,9 +32,9 @@ namespace Trackly.Controllers
         public static IEndpointRouteBuilder MapIdentityUserEndpoints(this IEndpointRouteBuilder app)
         {
             // There is POST request /api/register without 'fullName' (with only email and password)
-            app.MapPost("/signup", CreateUser);
+            app.MapPost(Constants.Paths.SignUp, CreateUser);
 
-            app.MapPost("/signin", SignIn);
+            app.MapPost(Constants.Paths.SignIn, SignIn);
 
             return app;
         }
@@ -73,19 +74,19 @@ namespace Trackly.Controllers
                 var signInKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(appSettings.Value.JWTSecret));
                 var claims = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim("userID", user.Id.ToString()),
-                    new Claim("gender", user.Gender.ToString()),
-                    new Claim("age", (DateTime.Now.Year - user.DateOfBirth.Year).ToString()),
+                    new Claim(Constants.Claims.UserID, user.Id.ToString()),
+                    new Claim(Constants.Claims.Gender, user.Gender.ToString()),
+                    new Claim(Constants.Claims.Age, (DateTime.Now.Year - user.DateOfBirth.Year).ToString()),
                     new Claim(ClaimTypes.Role, roles.First())
                 });
                 if (user.LibraryID != null)
-                    claims.AddClaim(new Claim("libraryID", user.LibraryID.ToString()!));
+                    claims.AddClaim(new Claim(Constants.Claims.LibraryID, user.LibraryID.ToString()!));
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = claims,
                     //TODO: change to good value according to needs
-                    Expires = DateTime.UtcNow.AddMinutes(1),
+                    Expires = DateTime.UtcNow.AddMinutes(10),
                     SigningCredentials = new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256Signature)
                 };
 

@@ -9,7 +9,7 @@ namespace Trackly.Controllers
     {
         public static IEndpointRouteBuilder MapAccountEndpoints(this IEndpointRouteBuilder app)
         {
-            app.MapGet("/UserProfile", GetUserProfile);
+            app.MapGet(Constants.Paths.UserProfile, GetUserProfile);
 
             return app;
         }
@@ -18,7 +18,7 @@ namespace Trackly.Controllers
         [Authorize]
         private static async Task<IResult> GetUserProfile(ClaimsPrincipal user, UserManager<AppUser> userManager)
         {
-            string userID = user.Claims.First(x => x.Type == "userID").Value;
+            string userID = user.Claims.First(x => x.Type == Constants.Claims.UserID).Value;
             var userDetails = await userManager.FindByIdAsync(userID);
             return Results.Ok(new 
             { 

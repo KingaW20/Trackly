@@ -4,6 +4,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { RouterLink, Router } from '@angular/router';
 import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
+import { Paths } from '../../shared/constants';
+import { FormUtilsService } from '../../shared/services/form-utils.service';
 
 @Component({
   selector: 'app-login',
@@ -16,13 +18,15 @@ export class LoginComponent implements OnInit {
 
   form: FormGroup;
   isSubmitted: boolean = false;
+  paths = Paths;
 
   //Password validators must be consistent with the api validators
   constructor(
     public formBuilder : FormBuilder, 
     private authService: AuthService, 
     private router: Router, 
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private formUtilsService: FormUtilsService
   ) { 
     this.form = this.formBuilder.group({
       email : ['', Validators.required],
@@ -33,7 +37,7 @@ export class LoginComponent implements OnInit {
   //To manage the access
   ngOnInit(): void {
     if (this.authService.isLoggedId())
-      this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl(Paths.DASHBOARD);
   }
 
   onSubmit() {
@@ -42,7 +46,7 @@ export class LoginComponent implements OnInit {
       this.authService.signin(this.form.value).subscribe({
         next: (res: any) => {
           this.authService.saveToken(res.token); 
-          this.router.navigateByUrl('/dashboard')
+          this.router.navigateByUrl(Paths.DASHBOARD)
         },
         error: err => {
           if (err.status == 400)
@@ -54,9 +58,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  //TODO: make this function global - registration.component has it also
   hasDisplayableError(controlName: string): boolean {
-    const control = this.form.get(controlName);
-    return Boolean(control?.invalid) && (this.isSubmitted || Boolean(control?.touched))
+    return this.formUtilsService.hasDisplayableError(this.form, controlName, this.isSubmitted);
   }
 }

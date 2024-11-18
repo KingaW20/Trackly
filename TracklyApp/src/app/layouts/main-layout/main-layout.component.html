@@ -1,25 +1,28 @@
 <nav id="sidebar" class="navbar bg-body-tertiary vh-100 flex-column justify-content-start">
     <div class="container-fluid justify-content-center p-1">    
-        <a class="navbar-brand h1 fw-bold text-success mb-3" routerLink="/dashboard">
+        <a class="navbar-brand h1 fw-bold text-success mb-3" [routerLink]="paths.DASHBOARD">
             Trackly
         </a>
     </div>
 
     <ul class="nav flex-column w-100 px-3">
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOnly">
-            <a class="nav-link" routerLink="/admin-only"> Admin Only </a>
+            <a class="nav-link" [routerLink]="paths.ADMIN_ONLY"> Admin Only </a>
         </li>
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOrTeacher">
-            <a class="nav-link" routerLink="/admin-or-teacher"> Admin Or Teacher </a>
+            <a class="nav-link" [routerLink]="paths.ADMIN_OR_TEACHER"> Admin Or Teacher </a>
         </li>
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.femaleAndTeacher">
-            <a class="nav-link" routerLink="/apply-for-maternity-leave"> Maternity Leave </a>
+            <a class="nav-link" [routerLink]="paths.APPLY_FOR_MATERNITY_LEAVE"> Maternity Leave </a>
         </li>
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.hasLibraryId">
-            <a class="nav-link" routerLink="/library-members-only"> Library Members </a>
+            <a class="nav-link" [routerLink]="paths.LIBRARY_MEMBERS_ONLY"> Library Members </a>
         </li>
         <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.femaleAndBelow10">
-            <a class="nav-link" routerLink="/under-10-and-female"> Under 10 Girls Only </a>
+            <a class="nav-link" [routerLink]="paths.UNDER10_AND_FEMALE"> Under 10 Girls Only </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" [routerLink]="paths.PAYMENT"> Payments </a>
         </li>
     </ul>
 </nav>
