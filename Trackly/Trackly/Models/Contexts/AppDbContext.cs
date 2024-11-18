@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace Trackly.Models
+namespace Trackly.Models.Contexts
 {
     public class AppDbContext : IdentityDbContext
     {

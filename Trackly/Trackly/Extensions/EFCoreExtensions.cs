@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Trackly.Models;
+using Trackly.Models.Contexts;
 
 namespace Trackly.Extensions
 {

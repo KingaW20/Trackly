@@ -4,22 +4,24 @@
     </h2>
     <div>
         Nie masz konta?
-        <a [routerLink]="paths.SIGN_UP" class="text-decoration-none fw-medium text-success d-inline-block">Zarejestruj się</a>
+        <a [routerLink]="['/', paths.SIGN_UP]" class="text-decoration-none fw-medium text-success d-inline-block">
+            Zarejestruj się
+        </a>
     </div>
 </div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-        <input class="form-control bg-body-secondary" placeholder="Adres email" formControlName="email">
-        <div class="error-feedback" *ngIf="hasDisplayableError('email') && form.controls['email'].hasError('required')">
-            Proszę podać swój adres email.
+        <input class="form-control bg-body-secondary" placeholder="Login" formControlName="login">
+        <div class="error-feedback" *ngIf="hasDisplayableError('login') && form.controls['login'].hasError('required')">
+            Wprowadź swój login.
         </div>
     </div>
 
     <div class="mb-3">
         <input class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
         <div class="error-feedback" *ngIf="hasDisplayableError('password') && form.controls['password'].hasError('required')">
-            Proszę podać swoje hasło.
+            Wprowadź hasło.
         </div>
     </div>
 

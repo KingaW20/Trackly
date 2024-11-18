@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Trackly.Models;
+using Trackly.Models.Contexts;
 
 namespace Trackly.Controllers
 {

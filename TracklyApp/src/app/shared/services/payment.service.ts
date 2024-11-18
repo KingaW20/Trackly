@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from "@angular/common/http";
 import { NgForm } from "@angular/forms";
 import { environment } from '../../../environments/environment';
-import { Payment } from '../payment.model';
 import { Paths } from '../constants';
+import { Payment } from '../models/payment.model';
 
 @Injectable({
   providedIn: 'root'

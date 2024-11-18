@@ -43,7 +43,7 @@ export class RegistrationComponent implements OnInit {
     private formUtilsService: FormUtilsService
   ) { 
     this.form = this.formBuilder.group({
-      fullName : ['', Validators.required],
+      login : ['', Validators.required],
       email : ['', [Validators.required, Validators.email]],
       password : ['', [
         Validators.required, Validators.minLength(6), Validators.pattern(/(?=.*[^a-zA-Z0-9 ])/)
@@ -67,7 +67,7 @@ export class RegistrationComponent implements OnInit {
             this.form.reset();
             this.isSubmitted = false;
             this.toastr.success('Utworzono nowego użytkownika', "Rejestracja się powiodła")
-          }          
+          }
         },
         error: err => {
           if (err.error.errors) {
@@ -75,6 +75,7 @@ export class RegistrationComponent implements OnInit {
             err.error.errors.forEach((x: any) => {
               switch(x.code) {
                 case "DuplicateUserName":
+                  this.toastr.error('Ta nazwa użytkownika jest już zajęta.', "Rejestracja się nie powiodła")
                   break;
   
                 case "DuplicateEmail":

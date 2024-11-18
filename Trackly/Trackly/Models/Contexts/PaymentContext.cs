@@ -1,13 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace Trackly.Models
+namespace Trackly.Models.Contexts
 {
     public class PaymentContext : DbContext
     {
-        public PaymentContext(DbContextOptions options) : base(options)
-        {
-
-        }
+        public PaymentContext(DbContextOptions options) : base(options) { }
 
         public DbSet<Payment> Payments { get; set; }
     }

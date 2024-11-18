@@ -22,9 +22,7 @@ import { trigger, style, animate, transition, query } from '@angular/animations'
 })
 export class UserComponent {
 
-  constructor(private context: ChildrenOutletContexts) {
-
-  }
+  constructor(private context: ChildrenOutletContexts) { }
 
   getRouteUrl() {
     return this.context.getContext('primary')?.route?.url;

@@ -26,4 +26,8 @@ export class MainLayoutComponent {
     this.authService.deleteToken(); 
     this.router.navigateByUrl(Paths.SIGN_IN)
   }
+
+  onAccount() {
+    this.router.navigateByUrl(Paths.USER_DETAILS)
+  }
 }

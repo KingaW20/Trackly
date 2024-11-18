@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { AuthService } from './auth.service';
 import { Paths } from '../constants';
 
 @Injectable({
@@ -11,9 +10,9 @@ export class UserService {
 
   baseURL: string = environment.apiBaseUrl
 
-  constructor(private http: HttpClient, private authService: AuthService) { }
+  constructor(private http: HttpClient) { }
 
   getUserProfile() {
-    return this.http.get(this.baseURL + Paths.USER_PROFILE)
+    return this.http.get(this.baseURL + "/" + Paths.USER_PROFILE)
   }
 }

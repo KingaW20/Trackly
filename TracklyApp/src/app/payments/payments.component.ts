@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { NgFor } from "@angular/common";
 import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { PaymentService } from '../shared/services/payment.service';
-import { Payment } from '../shared/payment.model';
 import { ToastrService } from 'ngx-toastr';
+import { Payment } from '../shared/models/payment.model';
 
 @Component({
   selector: 'app-payments',

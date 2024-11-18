@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../shared/services/user.service';
 import { claimReq } from '../shared/utils/claimReq-utils';
 import { HideIfClaimsNotMetDirective } from '../shared/directives/hide-if-claims-not-met.directive';
+import { User } from '../shared/models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,16 +13,15 @@ import { HideIfClaimsNotMetDirective } from '../shared/directives/hide-if-claims
 })
 export class DashboardComponent implements OnInit {
 
-  fullName: string = ''
-
+  login: string = ""
   claimReq = claimReq
 
   constructor(private userService: UserService) { }
 
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe({
-      next: (res: any) => this.fullName = res.fullName,
-      error: (err: any) => console.log('error while retrieving user profile:\n', err)
+      next: (res: any) => this.login = res.login,
+      error: (err: any) => console.log('Error while retrieving user profile:\n', err)
     })
   }
 }

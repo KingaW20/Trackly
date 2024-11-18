@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
     private formUtilsService: FormUtilsService
   ) { 
     this.form = this.formBuilder.group({
-      email : ['', Validators.required],
+      login : ['', Validators.required],
       password : ['', Validators.required]
     })
   }
@@ -50,7 +50,7 @@ export class LoginComponent implements OnInit {
         },
         error: err => {
           if (err.status == 400)
-            this.toastr.error('Niepoprawny adres email lub hasło.', "Logowanie")
+            this.toastr.error('Niepoprawny adres email lub hasło.', "Logowanie nie powiodło się")
           else
             console.log('error during login:\n', err)
         }

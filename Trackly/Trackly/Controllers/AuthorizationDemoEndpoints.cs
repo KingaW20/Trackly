@@ -9,29 +9,23 @@ namespace Trackly.Controllers
         {
             app.MapGet(Paths.AdminOnly, AdminOnly);
 
-            app.MapGet(Paths.AdminOrTeacher, 
-                [Authorize(Roles = Roles.Admin + "," + Roles.Teacher)] () => 
-                { return "Admin Or Teacher"; });
-
-            app.MapGet(Paths.LibraryMembersOnly, 
-                [Authorize(Policy = Policies.HasLibraryId)] () => 
-                { return "Library members only"; });
-
-            app.MapGet(Paths.ApplyForMaternityLeave, 
-                [Authorize(Roles = Roles.Teacher, Policy = Policies.FemalesOnly)] () => 
-                { return "Applied for maternity leave"; });
-
-            app.MapGet(Paths.Under10sAndFemale, 
-                [Authorize(Policy = Policies.Under10)] [Authorize(Policy = Policies.FemalesOnly)] () =>
-                { return "Under 10 and Female"; });
-
             return app;
         }
 
-        [Authorize(Roles = Roles.Admin)]
-        private static string AdminOnly()
-        {
-            return "Admin Only";
-        }
+        [Authorize(Roles = Roles.Admin)] 
+        private static string AdminOnly() { return "Admin Only"; }
+
+
+        //[Authorize(Roles = Roles.Admin + "," + Roles.Teacher)] 
+        //private static string AdminOrTeacher() { return "Admin Or Teacher"; }
+
+        //[Authorize(Policy = Policies.HasLibraryId)]
+        //private static string LibraryMembersOnly() { return "Library members only"; }
+
+        //[Authorize(Roles = Roles.Teacher, Policy = Policies.FemalesOnly)]
+        //private static string ApplyForMaternityLeave() { return "Applied for maternity leave"; }
+
+        //[Authorize(Policy = Policies.Under10)] [Authorize(Policy = Policies.FemalesOnly)]
+        //private static string Under10sAndFemale() { return "Under 10 and Female"; }
     }
 }

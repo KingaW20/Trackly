@@ -14,16 +14,15 @@ namespace Trackly.Controllers
     {
         public string Email { get; set; } = "";
         public string Password { get; set; } = "";
-        public string FullName { get; set; } = "";
+        public string Login { get; set; } = "";
         public string Role { get; set; } = "";
         public string Gender { get; set; } = "";
         public int Age { get; set; }
-        public int? LibraryID { get; set; }
     }
 
     public class LoginModel
     {
-        public string Email { get; set; } = "";
+        public string Login { get; set; } = "";
         public string Password { get; set; } = "";
     }
 
@@ -31,7 +30,7 @@ namespace Trackly.Controllers
     {
         public static IEndpointRouteBuilder MapIdentityUserEndpoints(this IEndpointRouteBuilder app)
         {
-            // There is POST request /api/register without 'fullName' (with only email and password)
+            // There is POST request /api/register with only email and password
             app.MapPost(Constants.Paths.SignUp, CreateUser);
 
             app.MapPost(Constants.Paths.SignIn, SignIn);
@@ -43,31 +42,37 @@ namespace Trackly.Controllers
         private static async Task<IResult> CreateUser(
             UserManager<AppUser> userManager, [FromBody] UserRegistrationModel userRegistrationModel)
         {
+            if (await userManager.FindByNameAsync(userRegistrationModel.Login) != null)
+            {
+                return Results.BadRequest( new { message = "Użytkownik już istnieje." } );
+            }
+
             AppUser user = new AppUser()
             {
-                UserName = userRegistrationModel.Email,             //UserName cannot be null
+                UserName = userRegistrationModel.Login,             //UserName cannot be null
                 Email = userRegistrationModel.Email,
-                FullName = userRegistrationModel.FullName,
                 Gender = userRegistrationModel.Gender,
-                DateOfBirth = DateOnly.FromDateTime(DateTime.Now.AddYears(-userRegistrationModel.Age)),
-                LibraryID = userRegistrationModel.LibraryID
+                DateOfBirth = DateOnly.FromDateTime(DateTime.Now.AddYears(-userRegistrationModel.Age))
             };
 
             var result = await userManager.CreateAsync(user, userRegistrationModel.Password);
+
+            if (!result.Succeeded)
+                return Results.BadRequest(result);
 
             await userManager.AddToRoleAsync(user, userRegistrationModel.Role);
 
             if (result.Succeeded)
                 return Results.Ok(result);
-            else
-                return Results.BadRequest(result);
+            
+            return Results.BadRequest(result);
         }
 
         [AllowAnonymous]
         private static async Task<IResult> SignIn(
             UserManager<AppUser> userManager, [FromBody] LoginModel loginModel, IOptions<AppSettings> appSettings)
         {
-            var user = await userManager.FindByEmailAsync(loginModel.Email);
+            var user = await userManager.FindByNameAsync(loginModel.Login);
             if (user != null && await userManager.CheckPasswordAsync(user, loginModel.Password))
             {
                 var roles = await userManager.GetRolesAsync(user);
@@ -79,14 +84,14 @@ namespace Trackly.Controllers
                     new Claim(Constants.Claims.Age, (DateTime.Now.Year - user.DateOfBirth.Year).ToString()),
                     new Claim(ClaimTypes.Role, roles.First())
                 });
-                if (user.LibraryID != null)
-                    claims.AddClaim(new Claim(Constants.Claims.LibraryID, user.LibraryID.ToString()!));
+                //if (user.LibraryID != null)
+                //    claims.AddClaim(new Claim(Constants.Claims.LibraryID, user.LibraryID.ToString()!));
 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = claims,
                     //TODO: change to good value according to needs
-                    Expires = DateTime.UtcNow.AddMinutes(10),
+                    Expires = DateTime.UtcNow.AddDays(1),
                     SigningCredentials = new SigningCredentials(signInKey, SecurityAlgorithms.HmacSha256Signature)
                 };
 
@@ -96,7 +101,7 @@ namespace Trackly.Controllers
                 return Results.Ok(new { token });
             }
             
-            return Results.BadRequest(new { message = "Nazwa użytkownika lub hasło są nieprawidłowe." });
+            return Results.BadRequest( new { message = "Nazwa użytkownika lub hasło są nieprawidłowe." } );
         }
     }
 }

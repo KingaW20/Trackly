@@ -19,7 +19,7 @@ export class AuthService {
     //instead of registration form, there should be some other 
     //form to update these details of the user
     //TODO: change this to ie. 2-step form
-    formData.role = Roles.TEACHER
+    formData.role = Roles.REGULAR
     formData.gender = Values.FEMALE
     formData.age = 35
     return this.http.post(this.baseURL + "/" + Paths.SIGN_UP, formData);

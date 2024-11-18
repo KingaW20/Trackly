@@ -20,10 +20,18 @@ namespace Trackly.Controllers
         {
             string userID = user.Claims.First(x => x.Type == Constants.Claims.UserID).Value;
             var userDetails = await userManager.FindByIdAsync(userID);
+            string role = "";
+            if (userDetails != null) {
+                var roles = await userManager.GetRolesAsync(userDetails);
+                role = roles.First();
+            }
             return Results.Ok(new 
             { 
                 Email = userDetails?.Email,
-                FullName = userDetails?.FullName
+                Login = userDetails?.UserName,
+                DateOfBirth = userDetails?.DateOfBirth,
+                Gender = userDetails?.Gender,
+                Role = role
             });
         }
     }

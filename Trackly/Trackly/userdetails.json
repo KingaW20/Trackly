@@ -1,67 +1,26 @@
 [
   {
-    "email": "admin1_m_age51@gmail.com",
-    "password": "admin1_m_age51",
-    "fullName": "Admin 1",
+    "email": "admin@gmail.com",
+    "password": "admin1.",
+    "login": "Admin",
     "role": "Admin",
     "gender": "Male",
-    "age": 51,
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1YWNhMGI4MC1mZGFmLTRmOTgtODZjOC0zOGMwY2FhMGY5MGIiLCJnZW5kZXIiOiJNYWxlIiwiYWdlIjoiNTEiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MzE5MjIzNTAsImV4cCI6MTczMTkyMjk1MCwiaWF0IjoxNzMxOTIyMzUwfQ.2bclDZoDU1t5Fqr4bJI56cnQfzgm2B2VXJ-3XKYFslk"
+    "age": 51
   },
   {
-    "email": "teacher1_f_age36@gmail.com",
-    "password": "teacher1_f_age36",
-    "fullName": "Teacher 1",
-    "role": "Teacher",
+    "email": "regular1@gmail.com",
+    "password": "regular1.",
+    "login": "Regular1",
+    "role": "Regular",
     "gender": "Female",
-    "age": 36,
-    "token": ""
+    "age": 24
   },
   {
-    "email": "teacher2_m_age40@gmail.com",
-    "password": "teacher2_m_age40",
-    "fullName": "Teacher 2",
-    "role": "Teacher",
+    "email": "regular2@gmail.com",
+    "password": "regular2.",
+    "login": "Regular2",
+    "role": "Regular",
     "gender": "Male",
-    "age": 40,
-    "token": ""
-  },
-  {
-    "email": "student1_f_age21@gmail.com",
-    "password": "student1_f_age21",
-    "fullName": "Student 1",
-    "role": "Student",
-    "gender": "Female",
-    "age": 21,
-    "libraryId": 3452345,
-    "token": ""
-  },
-  {
-    "email": "student2_m_age21@gmail.com",
-    "password": "student2_m_age21",
-    "fullName": "Student 2",
-    "role": "Student",
-    "gender": "Male",
-    "age": 21,
-    "token": ""
-  },
-  {
-    "email": "student3_m_age9@gmail.com",
-    "password": "student3_m_age9",
-    "fullName": "Student 3",
-    "role": "Student",
-    "gender": "Male",
-    "age": 9,
-    "token": ""
-  },
-  {
-    "email": "student4_f_age9@gmail.com",
-    "password": "student4_f_age9",
-    "fullName": "Student 4",
-    "role": "Student",
-    "gender": "Female",
-    "age": 9,
-    "libraryId": 555434,
-    "token": ""
+    "age": 33
   }
 ]

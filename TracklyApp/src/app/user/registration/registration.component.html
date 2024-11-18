@@ -4,15 +4,17 @@
     </h2>
     <div>
         Masz już konto? 
-        <a [routerLink]="paths.SIGN_IN" class="text-decoration-none fw-medium text-success d-inline-block">Zaloguj się</a>
+        <a [routerLink]="['/', paths.SIGN_IN]" class="text-decoration-none fw-medium text-success d-inline-block">
+            Zaloguj się
+        </a>
     </div>
 </div>
 
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
     <div class="mb-3">
-        <input class="form-control bg-body-secondary" placeholder="Imię" formControlName="fullName">
-        <div class="error-feedback" *ngIf="hasDisplayableError('fullName') && form.controls['fullName'].hasError('required')">
-            Proszę podać swoje imię.
+        <input class="form-control bg-body-secondary" placeholder="Login" formControlName="login">
+        <div class="error-feedback" *ngIf="hasDisplayableError('login') && form.controls['login'].hasError('required')">
+            Wprowadź swój login.
         </div>
     </div>
 
@@ -20,10 +22,10 @@
         <input class="form-control bg-body-secondary" placeholder="Adres email" formControlName="email">
         <div class="error-feedback" *ngIf="hasDisplayableError('email')">
             <div *ngIf="form.controls['email'].hasError('required')">
-                Proszę podać swój adres email.
+                Wprowadź swój adres email.
             </div>
             <div *ngIf="form.controls['email'].hasError('email')">
-                Proszę podać prawidłowy adres email.
+                Wprowadź prawidłowy adres email.
             </div>
         </div>
     </div>
@@ -33,7 +35,7 @@
         <div class="error-feedback" *ngIf="hasDisplayableError('password')">
             <ng-container [ngSwitch]="form.controls['password'].errors | firstKey">
                 <div *ngSwitchCase="'required'">
-                    Proszę wprowadzić hasło.
+                    Wprowadź hasło.
                 </div>
                 <div *ngSwitchCase="'minlength'">
                     Hasło musi zawierać minimum 6 znaków.
