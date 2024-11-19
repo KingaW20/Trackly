@@ -7,6 +7,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Trackly.Models;
+using Trackly.Utils;
 
 namespace Trackly.Controllers
 {

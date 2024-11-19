@@ -12,8 +12,10 @@ builder.Services.AddSwaggerExplorer()
                 .InjectDbContexts(builder.Configuration)
                 .AddAppConfig(builder.Configuration)
                 .AddIdentityHandlersAndStores()
-                .ConfigureIdentityOptions()                
-                .AddIdentityAuth(builder.Configuration);
+                .ConfigureIdentityOptions()
+                .AddIdentityAuth(builder.Configuration)
+                .InjectRepositories()
+                .InjectServices();
 
 var app = builder.Build();
 

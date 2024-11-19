@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Trackly.Models;
+using Trackly.Utils;
 
 namespace Trackly.Controllers
 {
@@ -26,7 +27,7 @@ namespace Trackly.Controllers
                 role = roles.First();
             }
             return Results.Ok(new 
-            { 
+            {
                 Email = userDetails?.Email,
                 Login = userDetails?.UserName,
                 DateOfBirth = userDetails?.DateOfBirth,

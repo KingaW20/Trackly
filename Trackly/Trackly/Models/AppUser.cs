@@ -9,7 +9,6 @@ namespace Trackly.Models
         [Column(TypeName = "nvarchar(150)")]
         public string Gender { get; set; } = "";
 
-        [PersonalData]
-        public DateOnly DateOfBirth { get; set; }
+        [PersonalData] public DateOnly DateOfBirth { get; set; }
     }
 }

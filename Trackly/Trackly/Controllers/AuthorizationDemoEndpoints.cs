@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using static Trackly.Constants;
+using static Trackly.Utils.Constants;
 
 namespace Trackly.Controllers
 {

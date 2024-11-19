@@ -5,7 +5,8 @@
     "login": "Admin",
     "role": "Admin",
     "gender": "Male",
-    "age": 51
+    "age": 51,
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiJkYWMyN2VlNC1lMzNiLTRiOGItYTZkZC02ZDQ2NTVhZmUwZmIiLCJnZW5kZXIiOiJNYWxlIiwiYWdlIjoiNTEiLCJyb2xlIjoiQWRtaW4iLCJuYmYiOjE3MzIwMTMxMzUsImV4cCI6MTczMjA5OTUzNSwiaWF0IjoxNzMyMDEzMTM1fQ.D0ALyN7G4QJqu_Umu-Myb9Eyj2zbdB6di_gk-sS5Yc0"
   },
   {
     "email": "regular1@gmail.com",
@@ -13,7 +14,9 @@
     "login": "Regular1",
     "role": "Regular",
     "gender": "Female",
-    "age": 24
+    "age": 24,
+    "id": "414d332a-b73e-43fe-a3dc-659665bdcbc8",
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI0MTRkMzMyYS1iNzNlLTQzZmUtYTNkYy02NTk2NjViZGNiYzgiLCJnZW5kZXIiOiJGZW1hbGUiLCJhZ2UiOiIzNSIsInJvbGUiOiJSZWd1bGFyIiwibmJmIjoxNzMyMDI3MTA4LCJleHAiOjE3MzIxMTM1MDgsImlhdCI6MTczMjAyNzEwOH0.JlnyRhnpBxNYokhlh_ksHkCtLNbe5gzzQyoxJIKUnOY"
   },
   {
     "email": "regular2@gmail.com",
