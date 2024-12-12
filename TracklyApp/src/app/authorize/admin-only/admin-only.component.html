@@ -1,0 +1,13 @@
+<div class="mb-3">
+    <button class="btn btn-lg btn-info" (click)="open(Values.MANAGE_PAYMENT_CATEGORIES)">
+        Zarządzaj kategoriami płatności
+    </button>
+    <app-manage-payment-categories *ngIf="show[Values.MANAGE_PAYMENT_CATEGORIES]"></app-manage-payment-categories>      
+</div>
+
+<div class="mb-3">
+    <button class="btn btn-lg btn-info" (click)="open(Values.MANAGE_PAYMENT_METHODS)">
+        Zarządzaj metodami płatności
+    </button>
+    <app-manage-payment-methods *ngIf="show[Values.MANAGE_PAYMENT_METHODS]"></app-manage-payment-methods>      
+</div>

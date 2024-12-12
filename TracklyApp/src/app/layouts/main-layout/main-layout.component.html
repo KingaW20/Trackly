@@ -1,21 +1,23 @@
-<nav id="sidebar" class="navbar bg-body-tertiary vh-100 flex-column justify-content-start">
-    <div class="container-fluid justify-content-center p-1">    
-        <a class="navbar-brand h1 fw-bold text-success mb-3" [routerLink]="paths.DASHBOARD">
-            Trackly
-        </a>
-    </div>
+<div>
+    <nav id="sidebar" class="navbar bg-body-tertiary vh-100 flex-column justify-content-start">
+        <div class="container-fluid justify-content-center p-1">    
+            <a class="navbar-brand h1 fw-bold text-success mb-3" [routerLink]="paths.DASHBOARD">
+                Trackly
+            </a>
+        </div>
+    
+        <ul class="nav flex-column w-100 px-3">
+            <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOnly">
+                <a class="nav-link" [routerLink]="paths.ADMIN_ONLY"> Zarządzaj </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" [routerLink]="paths.PAYMENT"> Płatności </a>
+            </li>
+        </ul>
+    </nav>
+</div>
 
-    <ul class="nav flex-column w-100 px-3">
-        <li class="nav-item" [appHideIfClaimsNotMet]="claimReq.adminOnly">
-            <a class="nav-link" [routerLink]="paths.ADMIN_ONLY"> Admin Only </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link" [routerLink]="paths.PAYMENT"> Payments </a>
-        </li>
-    </ul>
-</nav>
-
-<div id="main">
+<div class="flex-grow-1 col" id="main">
     <nav class="navbar bg-body-tertiary">
         <div class="container-fluid px-5 py-1">
 

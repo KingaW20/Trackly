@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink, Router } from '@angular/router';
-import { AuthService } from '../../shared/services/auth.service';
 import { ToastrService } from 'ngx-toastr';
-import { Paths } from '../../shared/constants';
+
+import { AuthService } from '../../shared/services/auth.service';
 import { FormUtilsService } from '../../shared/services/form-utils.service';
+import { Paths } from '../../shared/constants';
 
 @Component({
   selector: 'app-login',
@@ -16,6 +17,7 @@ import { FormUtilsService } from '../../shared/services/form-utils.service';
 })
 export class LoginComponent implements OnInit {
 
+  passwordShown: boolean = false;
   form: FormGroup;
   isSubmitted: boolean = false;
   paths = Paths;
@@ -56,6 +58,10 @@ export class LoginComponent implements OnInit {
         }
       })
     }
+  }
+
+  showPassword() {
+    this.passwordShown = !this.passwordShown;
   }
 
   hasDisplayableError(controlName: string): boolean {

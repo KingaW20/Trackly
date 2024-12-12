@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
+
 import { AuthService } from './services/auth.service';
 import { Paths } from './constants';
 
@@ -13,7 +14,6 @@ export const authGuard: CanActivateFn = (route, state) => {
     const claimReq = route.data['claimReq'] as Function;
     if (claimReq) {
       const claims = authService.getClaims();
-      // console.log(claims);
       if (!claimReq(claims)) {
         router.navigateByUrl(Paths.FORBIDDEN);
         return false;

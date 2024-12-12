@@ -1,0 +1,21 @@
+<button mat-raised-button class="btn btn-success ms-3" type="button"
+        (click)="paymentMethodService.onAddNewMethod()" title="Dodaj nową metodę płatności">
+    <i class="fa-solid fa-plus"></i>
+</button>
+
+<div class="d-flex">
+    <ul class="list-group m-3 col-5" *ngFor="let start of [0, Math.ceil(paymentMethodService.paymentMethods.length / 2)]">
+        <li class="list-group-item d-flex justify-content-between align-items-start mb-2 border px-4 py-3 rounded-3" 
+            *ngFor="let met of paymentMethodService.paymentMethods
+                .slice(start, start + Math.ceil(paymentMethodService.paymentMethods.length / 2))">
+                
+            <div class="fw-bold">{{met.name}}</div>
+            <span class="text-secondary">
+            <i class="fa-regular fa-pen-to-square" [style.cursor]="'pointer'" title="Edytuj metodę" 
+                (click)="paymentMethodService.onEditMethod(met)"></i>
+            <i class="ms-2 fa-solid fa-trash-can fa-lg" [style.cursor]="'pointer'" title="Usuń metodę" 
+                (click)="paymentMethodService.onDeleteMethod(met)"></i>
+            </span>
+        </li>
+    </ul>
+</div>

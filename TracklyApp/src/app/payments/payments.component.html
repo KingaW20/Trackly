@@ -1,38 +1,97 @@
 <div class="container">
     <div class="row">
-        <div class="col-8 offset-2">
-            
-            <!-- <div class="bg-body-secondary text-center py-5 rounded-2">
-                <h1 class="dispay-6 fw-bold">
-                    Rejestr Płatności
-                </h1>
-            </div> -->
-            
-            <div class="row">
-                <div class="col-6">
-                    <app-payment-form></app-payment-form>
-                </div>
-                
-                <div class="col-6">
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-start mb-2 border px-4 py-3 rounded-3" 
-                        *ngFor="let p of service.list">
-
-                            <div class="flex-grow-1 mouse-hover" (click)="populateForm(p)">
-                                {{p.date}}
-                                <div class="fw-bold">{{p.categoryName}}</div>
-                                <div>{{p.name}}</div>
-                                <div class="fw-bold">{{p.sum}} zł</div>
-                            </div>
-
-                            <span class="text-secondary">
-                                <i class="fa-solid fa-trash-can fa-lg mouse-hover" (click)="onDelete(p.paymentId)"></i>
-                            </span>
-                        </li>
-                    </ul>
-                </div>
+        <div class="col-8" style="float: left;">
+                        
+            <div *ngIf="service.paymentFormShown">
+                <app-payment-form></app-payment-form>
             </div>
             
+            <div *ngIf="service.transferFormShown">
+                <app-transfer-form></app-transfer-form>
+            </div>
+
+            <div class="row justify-content-center mb-3" *ngIf="!service.paymentFormShown && !service.transferFormShown">
+                <div class="d-grid col-5">
+                    <button class="btn btn-lg btn-success" (click)="showPaymentForm()">
+                        Dodaj płatność
+                    </button>
+                </div>
+                <div class="d-grid col-5">
+                    <button class="btn btn-lg btn-success" (click)="showTransferForm()">
+                        Dodaj przelew
+                    </button>
+                </div>
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item mouse-hover" [class.disabled]="service.canShowPage(true)">
+                        <a class="page-link" aria-label="Previous"
+                            (click)="service.changePagesShown(true)">
+                        <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+
+                    <li class="page-item mouse-hover" *ngFor="let page of service.paginator.pages"
+                        [class.active]="page == service.paginator.currentPage">
+                        <a class="page-link" (click)="service.changePage(page)">{{ page }}</a>
+                    </li>
+
+                    <li class="page-item mouse-hover" [class.disabled]="service.canShowPage(false)">
+                        <a class="page-link" aria-label="Next"
+                            (click)="service.changePagesShown(false)">
+                        <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <table class="table table-hover table-bordered border-primary align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">Data</th>
+                        <th scope="col">Kategoria</th>
+                        <th scope="col">Opis</th>
+                        <th scope="col">Kwota</th>
+                        <th scope="col">Konto</th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody class="table-group-divider">
+                    <tr *ngFor="let p of service.currentPayments"
+                        [ngClass]="{'table-danger': p.isOutcome, 'table-success': !p.isOutcome}">
+                        <th scope="row" (click)="populateForm(p)" [style.cursor]="'pointer'" 
+                            [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
+                            {{p.date}} 
+                        </th>
+                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
+                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
+                            {{p.paymentCategoryName}} 
+                        </td>
+                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
+                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
+                            {{p.description}} 
+                        </td>
+                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
+                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}">  
+                            {{p.isOutcome ? "-" : "+"}}{{p.sum}} 
+                        </td>
+                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
+                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
+                            {{p.paymentMethodName}}
+                        </td>
+                        <td>
+                            <span class="text-secondary">
+                                <i class="fa-solid fa-trash-can fa-lg mouse-hover" (click)="onDelete(p.id)" [style.cursor]="'pointer'"></i>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>            
+        </div>
+
+        <div class="col-3 offset-1">
+            <app-user-payment-accounts></app-user-payment-accounts>
         </div>
     </div>
 </div>

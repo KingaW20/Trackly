@@ -7,15 +7,30 @@ namespace Trackly.Services.Payments
     public class PaymentMethodService
     {
         private readonly PaymentMethodRepository _pmRepository;
+        private readonly UserPaymentMethodRepository _upmRepository;
+        private readonly PaymentRepository _pRepository;
 
-        public PaymentMethodService(PaymentMethodRepository paymentMethodRepository)
+        public PaymentMethodService(
+            PaymentMethodRepository paymentMethodRepository, 
+            UserPaymentMethodRepository userPaymentMethodRepository, 
+            PaymentRepository pRepository)
         {
             _pmRepository = paymentMethodRepository;
+            _upmRepository = userPaymentMethodRepository;
+            _pRepository = pRepository;
         }
 
         public async Task<IEnumerable<PaymentMethod>> GetPaymentMethods()
         {
-            return await _pmRepository.GetPaymentMethods();
+            var result = await _pmRepository.GetPaymentMethods();
+            foreach (var pm in result)
+            {
+                var userPaymentMethods = await _upmRepository.GetUserPaymentMethods(paymentMethodId: pm.Id);
+
+                pm.IsPaymentWithMethodExists = (await _pRepository.GetPayments())
+                    .Any(payment => userPaymentMethods.Any(upm => upm.Id == payment.UserPaymentMethodId));
+            }
+            return result;
         }
 
         public async Task<PaymentMethod?> GetPaymentMethod(int id)

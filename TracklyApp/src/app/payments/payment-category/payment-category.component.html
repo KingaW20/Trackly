@@ -1,0 +1,15 @@
+<form #form="ngForm" (submit)="onSubmit(form)" [class.submitted] = "formSubmitted" novalidate>
+    <div class="m-5 dialog-content">
+        <h1 mat-dialog-title>Nowa kategoria</h1>
+        <div mat-dialog-content>
+            <mat-form-field appearance="fill">
+                <mat-label>Nazwa nowej kategorii</mat-label>
+                <input matInput [(ngModel)]="categoryName" name="categoryName" required>
+            </mat-form-field>
+        </div>
+        <div mat-dialog-actions class="dialog-actions">
+            <button class="btn" mat-button (click)="onNoClick()" type="button">Anuluj</button>
+            <button class="btn btn-success" mat-button type="submit">Dodaj</button>
+        </div>
+    </div>
+</form>

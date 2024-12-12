@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
-import { RegistrationComponent } from './registration/registration.component';
-import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
 import { trigger, style, animate, transition, query } from '@angular/animations';
+import { Component } from '@angular/core';
+import { ChildrenOutletContexts, RouterOutlet } from '@angular/router';
+
+import { RegistrationComponent } from './registration/registration.component';
 
 @Component({
   selector: 'app-user',

@@ -24,6 +24,7 @@ namespace Trackly.Controllers.Payments
         [HttpGet]
         [Authorize]
         public async Task<ActionResult<IEnumerable<Payment>>> GetPayments()
+            //[FromQuery] int page = 1, [FromQuery] int take = 10)
         {
             try
             {

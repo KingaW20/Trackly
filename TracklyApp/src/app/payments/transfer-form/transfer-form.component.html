@@ -1,0 +1,96 @@
+<form #form="ngForm" (submit)="onSubmit(form)" [class.submitted] = "service.formSubmitted" novalidate>
+    <div class="row">
+        <div>
+            <div class="row">
+                <div class="mb-3 col-2">
+                    <label>Przelew z: </label>
+                </div>
+                <div class="mb-3 col-9">
+                    <select class="form-control form-control-lg" 
+                            [(ngModel)]="service.transferFormData.fromId"
+                            (ngModelChange)="onMethodFromChange()"
+                            #userPaymentMethodName="ngModel"
+                            name="userPaymentMethodName"
+                            required>
+                        <option value="null" disabled selected hidden>Nie wybrano</option>
+                        <option *ngFor="let met of userPaymentMethodService.userPaymentMethods" [value]="met.id">
+                            {{ met.paymentMethodName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3 col-1">                    
+                    <button mat-raised-button class="btn btn-success" type="button"
+                            (click)="onAddNewMethod()" 
+                            title="Dodaj nową metodę płatności">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-2">
+                    <label>do: </label>
+                </div>
+                <div class="mb-3 col-9">
+                    <select class="form-control form-control-lg" 
+                            [(ngModel)]="service.transferFormData.toId"
+                            (ngModelChange)="onMethodToChange()"
+                            #userPaymentMethodName="ngModel"
+                            name="userPaymentMethodName"
+                            required>
+                        <option value="null" disabled selected hidden>Nie wybrano</option>
+                        <option *ngFor="let met of userPaymentMethodService.userPaymentMethods" [value]="met.id">
+                            {{ met.paymentMethodName }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-1">
+                    <label>Suma</label>
+                </div>
+                <div class="mb-3 col-5">
+                    <input class="form-control form-control-lg" placeholder="Kwota"
+                        #sum="ngModel" name="sum" [(ngModel)]="service.transferFormData.sum"
+                        pattern="^\d+(\.\d{1,2})?$" required>
+
+                    <div class="error-feedback" *ngIf="service.formSubmitted">
+                        <div *ngIf="sum.hasError('pattern')">
+                            Wartość musi być liczbą z maksymalnie 2 cyframi po kropce.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 col-1"> 
+                    <label>Data</label>
+                </div>
+                <mat-form-field class="mb-3 col-5">
+                    <mat-label>DD-MM-RRRR</mat-label>
+                    <input class="form-control" matInput [matDatepicker]="datePicker"
+                        #date="ngModel" name="date" [(ngModel)]="date"
+                        (dateChange)="onDateChange($event.value)" required>
+                    <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-3">
+        <div class="d-grid col-5">
+            <button class="btn btn-lg btn-success" type="submit">
+                Dodaj przelew
+            </button>
+        </div>
+        <div class="d-grid col-3">
+            <button class="btn btn-outline-primary" type="button" (click)="clearForm()">
+                Wyczyść formularz
+            </button>
+        </div>
+        <div class="d-grid col-3">
+            <button class="btn btn-outline-secondary" type="button" (click)="closeForm()">
+                Zamknij formularz
+            </button>
+        </div>
+    </div>
+</form>

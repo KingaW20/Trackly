@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
-import { UserComponent } from './user/user.component';
-import { RegistrationComponent } from './user/registration/registration.component';
-import { LoginComponent } from './user/login/login.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
+
+import { AdminOnlyComponent } from './authorize/admin-only/admin-only.component';
 import { authGuard } from './shared/auth.guard';
-import { AdminOnlyComponent } from './authorizeDemo/admin-only/admin-only.component';
-import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
-import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { claimReq } from './shared/utils/claimReq-utils';
-import { PaymentsComponent } from './payments/payments.component';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { ForbiddenComponent } from './forbidden/forbidden.component';
+import { LoginComponent } from './user/login/login.component';
+import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
 import { Paths } from './shared/constants';
+import { PaymentsComponent } from './payments/payments.component';
+import { RegistrationComponent } from './user/registration/registration.component';
+import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 
 export const routes: Routes = [

@@ -8,5 +8,7 @@ namespace Trackly.Models.Payments
         [Key] public int Id { get; set; }
 
         [Column(TypeName = "nvarchar(100)")] public string Name { get; set; } = "";
+
+        [NotMapped] public bool IsPaymentWithMethodExists { get; set; } = false;
     }
 }

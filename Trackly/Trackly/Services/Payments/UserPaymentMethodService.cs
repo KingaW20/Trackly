@@ -18,7 +18,11 @@ namespace Trackly.Services.Payments
 
         public async Task<IEnumerable<UserPaymentMethod>> GetUserPaymentMethods(string? userId = null)
         {
-            return await _upmRepository.GetUserPaymentMethods(userId: userId);
+            var userPaymentsMethods = await _upmRepository.GetUserPaymentMethods(userId: userId);
+            foreach (var upm in userPaymentsMethods)
+                upm.PaymentMethodName = await GetUserPaymentMethodName(upm.PaymentMethodId);
+
+            return userPaymentsMethods;
         }
 
         public async Task<UserPaymentMethod?> GetUserPaymentMethod(int id, string userId)
@@ -27,6 +31,8 @@ namespace Trackly.Services.Payments
 
             if (result == null) throw new NotFoundException();
             if (result.UserId != userId) throw new UserPaymentMethodNotAccessedException();
+
+            result.PaymentMethodName = await GetUserPaymentMethodName(result.PaymentMethodId);
 
             return result;
         }
@@ -80,6 +86,12 @@ namespace Trackly.Services.Payments
         {
             var userPaymentMethods = await _upmRepository.GetUserPaymentMethods(userId: userId);
             return !(userPaymentMethods == null || !userPaymentMethods.ToList().Any(upm => upm.Id == userPaymentMethodId));
+        }
+
+        private async Task<string> GetUserPaymentMethodName(int pmId)
+        {
+            PaymentMethod pm = await _pmService.GetPaymentMethod(pmId);
+            return pm?.Name ?? "";
         }
     }
 }

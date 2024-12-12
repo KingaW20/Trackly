@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators, ValidatorFn, AbstractControl } from "@angular/forms";
-import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
-import { AuthService } from '../../shared/services/auth.service';
-import { ToastrService } from 'ngx-toastr';
 import { Router, RouterLink } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+
+import { AuthService } from '../../shared/services/auth.service';
+import { FirstKeyPipe } from '../../shared/pipes/first-key.pipe';
 import { FormUtilsService } from '../../shared/services/form-utils.service';
 import { Paths } from '../../shared/constants';
 
@@ -17,6 +18,8 @@ import { Paths } from '../../shared/constants';
 })
 export class RegistrationComponent implements OnInit {
 
+  passwordShown: boolean = false;
+  confirmPasswordShown: boolean = false;
   form: FormGroup;
   isSubmitted: boolean = false;
   paths = Paths
@@ -95,6 +98,11 @@ export class RegistrationComponent implements OnInit {
         }
       });
     }
+  }
+
+  showPassword(confirm: boolean) {
+    if (confirm) this.confirmPasswordShown = !this.confirmPasswordShown;
+    else this.passwordShown = !this.passwordShown;
   }
 
   hasDisplayableError(controlName: string): boolean {

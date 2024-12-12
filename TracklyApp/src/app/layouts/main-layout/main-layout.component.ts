@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
+
 import { AuthService } from '../../shared/services/auth.service';
-import { HideIfClaimsNotMetDirective } from '../../shared/directives/hide-if-claims-not-met.directive';
 import { claimReq } from '../../shared/utils/claimReq-utils';
+import { HideIfClaimsNotMetDirective } from '../../shared/directives/hide-if-claims-not-met.directive';
 import { Paths } from '../../shared/constants';
 
 @Component({

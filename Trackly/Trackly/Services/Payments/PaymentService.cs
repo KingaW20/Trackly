@@ -1,4 +1,5 @@
-﻿using Trackly.Models.Payments;
+﻿using Microsoft.EntityFrameworkCore.Diagnostics;
+using Trackly.Models.Payments;
 using Trackly.Repositories.Payments;
 using Trackly.Utils;
 
@@ -8,18 +9,27 @@ namespace Trackly.Services.Payments
     {
         private readonly PaymentRepository _pRepository;
         private readonly UserPaymentMethodService _upmService;
+        private readonly PaymentCategoryService _pcService;
 
-        public PaymentService(PaymentRepository paymentRepository, UserPaymentMethodService userPaymentMethodService)
+        public PaymentService(PaymentRepository paymentRepository, UserPaymentMethodService userPaymentMethodService
+            , PaymentCategoryService paymentCategoryService)
         {
             _pRepository = paymentRepository;
             _upmService = userPaymentMethodService;
+            _pcService = paymentCategoryService;
         }
 
         public async Task<IEnumerable<Payment>> GetPayments(string? userId = null)
         {
             var upmIds = (await _upmService.GetUserPaymentMethods(userId: userId)).Select(upm => upm.Id).ToList();
+            var payments = await _pRepository.GetPayments(userPaymentMethodIds: upmIds);
+            foreach (var p in payments)
+            {
+                p.PaymentMethodName = await GetUserPaymentMethodName(p.UserPaymentMethodId, userId);
+                p.PaymentCategoryName = await GetPaymentCategoryName(p.CategoryId);
+            }
 
-            return await _pRepository.GetPayments(userPaymentMethodIds: upmIds);            
+            return payments;
         }
 
         public async Task<Payment?> GetPayment(int id, string userId)
@@ -31,6 +41,9 @@ namespace Trackly.Services.Payments
             //check if payment belongs to user
             if (!(await IsUserPayment(id, userId))) throw new PaymentNotAccessedException();
 
+            payment.PaymentMethodName = await GetUserPaymentMethodName(payment.UserPaymentMethodId, userId);
+            payment.PaymentCategoryName = await GetPaymentCategoryName(payment.CategoryId);
+
             return payment;
         }
 
@@ -41,6 +54,9 @@ namespace Trackly.Services.Payments
             //check if user payment method belongs to user
             if (!(await _upmService.IsUserPaymentMethod(payment.UserPaymentMethodId, userId)))
                 throw new UserPaymentMethodNotAccessedException();
+
+            //update account balance based on sum of the payment
+            await UpdateAccountBalance((payment.IsOutcome ? -1 : 1) * payment.Sum, payment.UserPaymentMethodId, userId);
 
             return await _pRepository.AddPayment(payment);
         }
@@ -61,6 +77,11 @@ namespace Trackly.Services.Payments
             var result = await _pRepository.UpdatePayment(payment);
             if (result == null) throw new NotFoundException();
 
+            //update account balance based on sum of the payment
+            var oldSum = (p.IsOutcome ? -1 : 1) * p.Sum;
+            var newSum = (payment.IsOutcome ? -1 : 1) * payment.Sum;
+            await UpdateAccountBalance(newSum - oldSum, payment.UserPaymentMethodId, userId);
+
             return result;
         }
 
@@ -73,6 +94,9 @@ namespace Trackly.Services.Payments
             //check if payment belongs to user
             if (!(await IsUserPayment(id, userId))) throw new PaymentNotAccessedException();
 
+            //update account balance based on sum of the payment
+            await UpdateAccountBalance((p.IsOutcome ? 1 : -1) * p.Sum, p.UserPaymentMethodId, userId);
+
             await _pRepository.DeletePayment(p);
         }
 
@@ -80,6 +104,26 @@ namespace Trackly.Services.Payments
         {
             var userPayments = await GetPayments(userId: userId);
             return !(userPayments == null || !userPayments!.ToList().Any(p => p.Id == paymentId));
+        }
+
+        private async Task<string> GetUserPaymentMethodName(int upmId, string userId)
+        {
+            UserPaymentMethod upm = await _upmService.GetUserPaymentMethod(upmId, userId);
+            return upm?.PaymentMethodName ?? "";
+        }
+
+        private async Task<string> GetPaymentCategoryName(int pcId)
+        {
+            PaymentCategory pc = await _pcService.GetPaymentCategory(pcId);
+            return pc?.Name ?? "";
+        }
+
+        private async Task UpdateAccountBalance (double sum, int upmId, string userId)
+        {
+            var upm = await _upmService.GetUserPaymentMethod(upmId, userId);
+            if (upm == null) throw new NotFoundException();
+            upm.Sum = Math.Round(upm.Sum + sum, 2);
+            await _upmService.UpdateUserPaymentMethod(upm);
         }
     }
 }

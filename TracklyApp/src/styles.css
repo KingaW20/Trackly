@@ -3,6 +3,10 @@
     cursor: pointer;
 }
 
+.mouse-hover:hover {
+    background-color: #ffeccf;
+}
+
 form label {
     text-transform: uppercase;
     color: grey;
@@ -20,6 +24,24 @@ form input::placeholder {
 form.submitted input.ng-invalid {
     border-color: red;
 }
+
+form.submitted select.ng-invalid {
+    border-color: red;
+}
+
+.dialog-content {
+    justify-content: center;    /* wyśrodkowanie w poziomie */
+    align-items: center;    /* wyśrodkowanie w pionie */
+    height: 100%;
+}
+
+.dialog-actions {
+    display: flex;
+    justify-content: center;  /* Wycentrowanie przycisków poziomo */
+    align-items: center;      /* Wycentrowanie przycisków pionowo */
+    gap: 16px;                /* Odległość między przyciskami */
+}
+
 
 /*registration*/
 body {
@@ -55,4 +77,13 @@ body {
 #sidebar li.nav-item:hover {
     background-color: #007fff17;
     border-radius: 0.5rem;
+}
+html, body { 
+    height: 100%; 
+}
+body { 
+    margin: 0; 
+    font-family: Roboto, 
+    "Helvetica Neue", 
+    sans-serif; 
 }

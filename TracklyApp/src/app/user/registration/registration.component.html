@@ -31,7 +31,14 @@
     </div>
 
     <div class="mb-3">
-        <input class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
+        <div class="input-group">
+            <input [type]="passwordShown ? 'text' : 'password'" 
+                class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
+            <div class="ms-2" style="display: flex; align-items: center;" (click)="showPassword(false)">
+                <i class="fa-regular fa-eye" *ngIf="!passwordShown"></i>
+                <i class="fa-regular fa-eye-slash" *ngIf="passwordShown"></i>
+            </div>
+        </div>
         <div class="error-feedback" *ngIf="hasDisplayableError('password')">
             <ng-container [ngSwitch]="form.controls['password'].errors | firstKey">
                 <div *ngSwitchCase="'required'">
@@ -48,7 +55,14 @@
     </div>
 
     <div class="mb-3">
-        <input class="form-control bg-body-secondary" placeholder="Powtórz hasło" formControlName="confirmPassword">
+        <div class="input-group">
+            <input [type]="confirmPasswordShown ? 'text' : 'password'"  
+                class="form-control bg-body-secondary" placeholder="Powtórz hasło" formControlName="confirmPassword">
+            <div class="ms-2" style="display: flex; align-items: center;" (click)="showPassword(true)">
+                <i class="fa-regular fa-eye" *ngIf="!confirmPasswordShown"></i>
+                <i class="fa-regular fa-eye-slash" *ngIf="confirmPasswordShown"></i>
+            </div>
+        </div>
         <div class="error-feedback" *ngIf="hasDisplayableError('confirmPassword') && form.controls['confirmPassword'].hasError('passwordMismatch')">
             Hasła nie są zgodne.
         </div>

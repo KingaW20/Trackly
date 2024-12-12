@@ -20,7 +20,12 @@ namespace Trackly.Repositories.Payments
             if (userPaymentMethodIds != null && userPaymentMethodIds.Any())
                 query = query.Where(p => userPaymentMethodIds.Contains(p.UserPaymentMethodId));
 
-            return await query.ToListAsync();
+            // sorting from newest to oldest
+            var payments = await query
+                .OrderByDescending(p => p.Date)
+                .ToListAsync();
+
+            return payments;
         }
 
         public async Task<Payment?> GetPayment(int id)

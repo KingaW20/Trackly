@@ -15,7 +15,10 @@ export const Paths = {
     // LIBRARY_MEMBERS_ONLY: 'library-members-only',
     // UNDER10_AND_FEMALE: 'under-10-and-female',
 
-    PAYMENT: 'Payment'
+    PAYMENT: 'Payment',
+    PAYMENT_CATEGORY: 'PaymentCategory',
+    PAYMENT_METHOD: 'PaymentMethod',
+    USER_PAYMENT_METHOD: 'UserPaymentMethod',
 }
 
 export const Roles = {
@@ -26,5 +29,10 @@ export const Roles = {
 }
 
 export const Values = {
-    FEMALE: 'Female'
+    FEMALE: 'Female',
+    INCOME: 'Przychód',
+    OUTCOME: 'Wydatek',
+    TRANSFER: 'Przelew',
+    MANAGE_PAYMENT_CATEGORIES: 'managePaymentCategories',
+    MANAGE_PAYMENT_METHODS: 'managePaymentMethods'
 }

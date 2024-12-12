@@ -7,15 +7,20 @@ namespace Trackly.Services.Payments
     public class PaymentCategoryService
     {
         private readonly PaymentCategoryRepository _pcRepository;
+        private readonly PaymentRepository _pRepository;
 
-        public PaymentCategoryService(PaymentCategoryRepository paymentCategoryRepository)
+        public PaymentCategoryService(PaymentCategoryRepository paymentCategoryRepository, PaymentRepository paymentRepository)
         {
             _pcRepository = paymentCategoryRepository;
+            _pRepository = paymentRepository;
         }
 
         public async Task<IEnumerable<PaymentCategory>> GetPaymentCategories()
         {
-            return await _pcRepository.GetPaymentCategories();
+            var result = await _pcRepository.GetPaymentCategories();
+            foreach (var pc in result)
+                pc.IsPaymentWithCategoryExists = (await _pRepository.GetPayments()).Any(payment => payment.CategoryId == pc.Id);
+            return result;
         }
 
         public async Task<PaymentCategory?> GetPaymentCategory(int id)

@@ -1,34 +1,119 @@
 <form #form="ngForm" (submit)="onSubmit(form)" [class.submitted] = "service.formSubmitted" novalidate>
-    <input type="hidden" name="paymentId" [value]="service.formData.paymentId">
-    <div class="mb-3">
-        <label>Kategoria</label>
-        <input class="form-control form-control-lg" placeholder="Kategoria wydatku/dochodu"
-        #categoryName="ngModel" name="categoryName" [(ngModel)]="service.formData.categoryName"
-        required>
-    </div>
-    <div class="mb-3">
-        <label>Opis</label>
-        <input class="form-control form-control-lg" placeholder="Opis wydatku/dochodu"
-        #name="ngModel" name="name" [(ngModel)]="service.formData.name"
-        required>
-    </div>
+    <input type="hidden" name="id" [value]="service.paymentFormData.id">
+
     <div class="row">
-        <div class="mb-3 col-6">
-            <label>Suma</label>
-            <input class="form-control form-control-lg" placeholder="Kwota"
-            #sum="ngModel" name="sum" [(ngModel)]="service.formData.sum"
-            required>
+        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+            <input type="radio" class="btn-check" name="paymentType" id="true" autocomplete="off" 
+                [(ngModel)]="service.paymentFormData.isOutcome" [value]="true">
+            <label class="btn btn-outline-primary" for="true"> {{Values.OUTCOME}} </label>
+          
+            <input type="radio" class="btn-check" name="paymentType" id="false" autocomplete="off"
+                [(ngModel)]="service.paymentFormData.isOutcome" [value]="false">
+            <label class="btn btn-outline-primary" for="false"> {{Values.INCOME}} </label>
         </div>
-        <div class="mb-3 col-6">
-            <label>Data</label>
-            <input class="form-control form-control-lg" placeholder="dd-mm-rrrr"
-            #date="ngModel" name="date" [(ngModel)]="service.formData.date"
-            required minlength="10" maxlength="10">
+        
+        <div class="col-6">
+            <div class="mb-3">
+                <label>Kategoria</label>
+                <div class="d-flex justify-content-between">
+                    <div class="col-10">
+                        <select class="form-control form-control-lg"
+                                [(ngModel)]="service.paymentFormData.categoryId"
+                                (ngModelChange)="onCategoryChange()"
+                                #paymentCategoryName="ngModel"
+                                name="paymentCategoryName"
+                                required>
+                            <option value="null" disabled selected hidden>Nie wybrano</option>
+                            <option *ngFor="let cat of categoryService.paymentCategories; trackBy: trackById;" [value]="cat.id">
+                                {{ cat.name }}
+                            </option>
+                        </select>
+                    </div>
+                    <button mat-raised-button class="btn btn-success" type="button"
+                            (click)="categoryService.onAddNewCategory()" 
+                            title="Dodaj nową kategorię płatności">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label>Opis</label>
+                <input class="form-control form-control-lg" placeholder="Opis wydatku/dochodu"
+                #name="ngModel" name="name" [(ngModel)]="service.paymentFormData.description"
+                required>
+            </div>
+        </div>
+
+        <div class="col-6">            
+
+            <div class="mb-3">
+                <label>Metoda płatności</label>
+                <div class="d-flex justify-content-between">
+                    <div class="col-10">
+                        <select class="form-control form-control-lg" 
+                                [(ngModel)]="service.paymentFormData.userPaymentMethodId"
+                                (ngModelChange)="onMethodChange()"
+                                #userPaymentMethodName="ngModel"
+                                name="userPaymentMethodName"
+                                required>
+                            <option value="null" disabled selected hidden>Nie wybrano</option>
+                            <option *ngFor="let met of userPaymentMethodService.userPaymentMethods; trackBy: trackById;" [value]="met.id">
+                                {{ met.paymentMethodName }}
+                            </option>
+                        </select>
+                    </div>
+                    <button mat-raised-button class="btn btn-success" type="button"
+                            (click)="onAddNewUserPaymentMethod()" 
+                            title="Dodaj nową metodę płatności">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-6">
+                    <label>Suma</label>
+                    <input class="form-control form-control-lg" placeholder="Kwota"
+                        #sum="ngModel" name="sum" [(ngModel)]="service.paymentFormData.sum"
+                        pattern="^\d+(\.\d{1,2})?$" required>
+
+                    <div class="error-feedback" *ngIf="service.formSubmitted">
+                        <div *ngIf="sum.hasError('pattern')">
+                            Wartość musi być liczbą z maksymalnie 2 cyframi po kropce.
+                        </div>
+                    </div>
+                </div>
+                <div class="mb-3 col-6">
+                    <label>Data</label>
+                    <mat-form-field class="col-12" appearance="fill">
+                        <mat-label>DD.MM.RRRR</mat-label>
+                        <input class="form-control" matInput [matDatepicker]="datePicker"
+                            #date="ngModel" name="date" [(ngModel)]="service.dateForm"
+                            (dateChange)="onDateChange($event.value)" required>
+                        <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+                        <mat-datepicker #datePicker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="d-grid">
-        <button class="btn btn-lg btn-success" type="submit">
-            Zatwierdź
-        </button>
+
+    <div class="row justify-content-center mb-3">
+        <div class="d-grid col-5">
+            <button class="btn btn-lg btn-success" type="submit">
+                Dodaj płatność
+            </button>
+        </div>
+        <div class="d-grid col-3">
+            <button class="btn btn-outline-primary" type="button" (click)="clearForm()">
+                Wyczyść formularz
+            </button>
+        </div>
+        <div class="d-grid col-3">
+            <button class="btn btn-outline-secondary" type="button" (click)="closeForm()">
+                Zamknij formularz
+            </button>
+        </div>
     </div>
 </form>

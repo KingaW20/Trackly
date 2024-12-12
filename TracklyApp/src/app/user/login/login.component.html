@@ -19,7 +19,14 @@
     </div>
 
     <div class="mb-3">
-        <input class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
+        <div class="input-group">
+            <input [type]="passwordShown ? 'text' : 'password'" 
+                class="form-control bg-body-secondary" placeholder="Hasło" formControlName="password">
+            <div class="ms-2" style="display: flex; align-items: center;" (click)="showPassword()">
+                <i class="fa-regular fa-eye" *ngIf="!passwordShown"></i>
+                <i class="fa-regular fa-eye-slash" *ngIf="passwordShown"></i>
+            </div>
+        </div>
         <div class="error-feedback" *ngIf="hasDisplayableError('password') && form.controls['password'].hasError('required')">
             Wprowadź hasło.
         </div>

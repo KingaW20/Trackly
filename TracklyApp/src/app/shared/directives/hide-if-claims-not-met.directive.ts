@@ -1,4 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core';
+
 import { AuthService } from '../services/auth.service';
 
 @Directive({
@@ -16,5 +17,4 @@ export class HideIfClaimsNotMetDirective implements OnInit {
       this.elementRef.nativeElement.style.display = "none";
     }
   }
-
 }

@@ -1,9 +1,10 @@
 import { HttpInterceptorFn } from '@angular/common/http';
-import { AuthService } from './services/auth.service';
 import { inject } from '@angular/core';
-import { tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { tap } from 'rxjs';
+
+import { AuthService } from './services/auth.service';
 import { Paths } from './constants';
 
 //kind of middleware - added to app.config

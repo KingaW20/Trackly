@@ -7,8 +7,6 @@
             public const string UserID = "userID";
             public const string Gender = "gender";
             public const string Age = "age";
-
-            public const string PaymentMethodID = "paymentMethodID";
         }
 
         public static class Paths

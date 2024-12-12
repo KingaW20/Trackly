@@ -1,15 +1,5 @@
 src
 |--app
-|  |-- payments
-|  |   |-- payments.component.ts|.html                  (*)
-|  |   '-- payment-form (cmp. folder)                   (*)
-|  |
-|  |-- user
-|  |   |-- user.component.ts|.html                      (**)
-|  |   |-- login (cmp. folder)                          (**)
-|  |   |-- user-details (cmp. folder)                   (***)
-|  |   '-- registration (cmp. folder)                   (**)
-|  |
 |  |-- authorizeDemo                                    (**)
 |  |   |-- admin-only.component.ts|.html
 |  |   |-- admin-or-teacher.component.ts|.html
@@ -17,37 +7,53 @@ src
 |  |   |-- library-members-only.component.ts|.html
 |  |   '-- under10-and-female.component.ts|.html
 |  |
-|  |-- layouts                                          (**)
-|  |   '-- main-layout.component.ts|.html (cmp. folder)
-|  |
 |  |-- dashboard (cmp. folder)                          (**)
 |  |
 |  |-- forbidden (cmp. folder)                          (**)
 |  |
+|  |-- layouts                                          (**)
+|  |   '-- main-layout (cmp. folder)
+|  |
+|  |-- payments
+|  |   |-- payments.component.ts|.html                  (*)
+|  |   '-- payment-form (cmp. folder)                   (*)
+|  |
 |  |-- shared
-|  |   |-- auth.guard.ts                                (**)
-|  |   |-- auth.interceptor.ts                          (**)
-|  |   |-- constants.ts                                 (**)
-|  |   |-- utils                                        (**)
-|  |   |   '-- claimReq-utils.ts
 |  |   |-- directives                                   (**)
 |  |   |   '-- hide-if-claims-not-met.directive.ts
 |  |   |-- models                                       (***)
+|  |   |   |-- payment.model.ts                         (*)
 |  |   |   |-- user.model.ts                            (***)
-|  |   |   '-- payment.model.ts                         (*)
+|  |   |   '-- user-payment-method.model.ts             (*)
 |  |   |-- pipes                                        (**)
 |  |   |   '-- first-key.pipe.ts
-|  |   '-- services
-|  |       |-- payment.service.ts                       (*)
-|  |       |-- form-utils.service.ts                    (***)
-|  |       |-- user.service.ts                          (**)
-|  |       '-- auth.service.ts                          (**)
+|  |   |-- services
+|  |   |   |-- auth.service.ts                          (**)
+|  |   |   |-- form-utils.service.ts                    (***)
+|  |   |   |-- payment.service.ts                       (*)
+|  |   |   '-- user.service.ts                          (**)
+|  |   |-- utils                                        (**)
+|  |   |   '-- claimReq-utils.ts
+|  |   |-- auth.guard.ts                                (**)
+|  |   |-- auth.interceptor.ts                          (**)
+|  |   '-- constants.ts                                 (**)
 |  |
+|  |-- user
+|  |   |-- user.component.ts|.html                      (**)
+|  |   |-- login (cmp. folder)                          (**)
+|  |   |-- user-details (cmp. folder)                   (***)
+|  |   '-- registration (cmp. folder)                   (**)
+|  |
+|  |-- app.component.ts|.html
 |  |-- app.config.ts 
 |  '-- app.routes.ts                                    
 |
-|--styles.css (global css rules)
-'--index.html (cdn path for bootstrap & fa icons)
+|--environments                                         (*)
+|  |-- environment.development.ts 
+|  '-- environment.ts    
+|
+|--index.html (cdn path for bootstrap & fa icons)
+'--styles.css (global css rules)
 
 
 
