@@ -5,7 +5,7 @@ namespace Trackly.Models.Contexts
 {
     public class PaymentContext : DbContext
     {
-        public PaymentContext(DbContextOptions options) : base(options) { }
+        public PaymentContext(DbContextOptions<PaymentContext> options) : base(options) { }
 
         public DbSet<Payment> Payments { get; set; }
         public DbSet<PaymentCategory> PaymentCategories { get; set; }

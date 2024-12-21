@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Trackly.Utils;
+using Trackly.Utils.Exceptions;
 
 namespace Trackly.Controllers
 {

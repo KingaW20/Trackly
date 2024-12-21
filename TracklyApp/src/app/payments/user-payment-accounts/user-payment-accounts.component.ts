@@ -4,9 +4,9 @@ import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
-import { UserPaymentMethod } from '../../shared/models/user-payment-method.model';
+import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
 import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-method.component';
-import { UserPaymentMethodService } from '../../shared/services/user-payment-method.service';
+import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 
 @Component({
   selector: 'app-user-payment-accounts',
@@ -50,7 +50,6 @@ export class UserPaymentAccountsComponent {
     this.dialogRef.afterClosed().subscribe( () => {
       var result = this.upmService.choosedUpm
       if (result.id != 0) {
-        console.log(result)
         this.upmService.putUserPaymentMethod(result).subscribe({
           next: res => {
             this.upmService.userPaymentMethods = res as UserPaymentMethod[]    // list update

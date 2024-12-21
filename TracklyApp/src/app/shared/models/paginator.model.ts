@@ -5,6 +5,20 @@ export class Paginator {
     pagesNumberShown : number = 5
     pages : number[] = [ 1 ]
 
+    constructor(p: {
+        currentPage?: number,
+        pageItemNumber?: number,
+        totalPages?: number,
+        pagesNumberShown?: number,
+        pages?: number[],
+    }) {
+        this.currentPage = p.currentPage ?? 1;
+        this.pageItemNumber = p.pageItemNumber ?? 8;
+        this.totalPages = p.totalPages ?? 1;
+        this.pagesNumberShown = p.pagesNumberShown ?? 5;
+        this.pages = p.pages ?? [ 1 ];
+    }
+
     getListPart(list: any[]) : any[] {        
         return list.slice((this.currentPage - 1)*this.pageItemNumber, this.currentPage*this.pageItemNumber)
     }
@@ -28,5 +42,29 @@ export class Paginator {
         }
 
         this.pages.sort((a, b) => a - b);
+    }
+
+    changePagesShown(previous: boolean) {
+        if (previous)
+        {
+            let firstPage = this.pages[0]
+            this.pages.pop()
+            this.pages.push(firstPage - 1)
+            this.pages.sort((a, b) => a - b);
+        }
+        else
+        {
+            let lastPage = this.pages[this.pages.length - 1]
+            this.pages.shift()    // removing first page
+            this.pages.push(lastPage + 1)
+            this.pages.sort((a, b) => a - b);
+        }
+    }
+    
+    canShowPage(previous: boolean) {
+        if (previous)
+            return this.pages[0] <= 1
+        else
+            return this.pages[this.pages.length - 1] >= this.totalPages
     }
 }

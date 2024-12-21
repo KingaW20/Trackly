@@ -1,0 +1,59 @@
+<div class="container">
+    <div *ngIf="upService.programFormShow">
+        <app-program-form></app-program-form>
+    </div>
+    
+    <div class="mb-3" *ngIf="!upService.programFormShow">
+        <button class="btn btn-lg btn-success" (click)="showProgramForm()">Dodaj obejrzany Film/Serial</button>
+    </div>
+    
+    <div class="mb-3">
+        <button class="btn btn-lg btn-success">Miesiąc lub Rok</button>
+    </div>
+    
+    <nav>
+        <ul class="pagination justify-content-center">
+            <li class="page-item mouse-hover" [class.disabled]="upService.paginator.canShowPage(true)">
+                <a class="page-link" aria-label="Previous"
+                    (click)="upService.paginator.changePagesShown(true)">
+                <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+    
+            <li class="page-item mouse-hover" *ngFor="let page of upService.paginator.pages"
+                [class.active]="page == upService.paginator.currentPage">
+                <a class="page-link" (click)="upService.changePage(page)">{{ page }}</a>
+            </li>
+    
+            <li class="page-item mouse-hover" [class.disabled]="upService.paginator.canShowPage(false)">
+                <a class="page-link" aria-label="Next"
+                    (click)="upService.paginator.changePagesShown(false)">
+                <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <ul class="list-group d-grid" style="grid-template-columns: repeat(4, 1fr); gap: 20px;">
+        <li class="list-group-item mb-2 border px-4 py-3 rounded-3"
+            *ngFor="let up of upService.currentUserPrograms">
+    
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <div>{{up.date}}</div>
+                <div class="text-secondary">
+                    <i class="fa-solid fa-eye me-2" [style.cursor]="'pointer'" (click)="onEdit(up, true)" title="Obejrzyj ponownie"></i>
+                    <i class="fa-solid fa-pen-to-square me-2" [style.cursor]="'pointer'" (click)="onEdit(up, false)" title="Edytuj"></i>
+                    <i class="fa-solid fa-trash-can" [style.cursor]="'pointer'" (click)="onDelete(up.id)" title="Usuń z obejrzanych"></i>
+                </div>
+            </div>
+    
+            <div class="text-center mb-2 d-flex justify-content-center align-items-center" [style.height.px]="Values.MAX_IMAGE_HEIGHT">
+                <img [src]="up.program.image?.source" alt="Movie Image"
+                [style.height.px]="upService.getImageHeight(up.program.image)" [style.width.px]="Values.IMAGE_WIDTH">
+            </div>
+    
+            <div class="text-center mb-2 fw-bold"> {{up.isMovie ? "" : getTvSerieText(up)}} {{up.program.title}} </div>
+            <div class="text-center"> Czas: {{up.program.time}} min </div>
+        </li>
+    </ul>    
+</div>

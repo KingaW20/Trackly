@@ -233,3 +233,6 @@ dotnet_naming_style.begins_with_i.capitalization = pascal_case
 
 # CS8600: Converting null literal or possible null value to non-nullable type.
 dotnet_diagnostic.CS8600.severity = silent
+
+# CS8625: Cannot convert null literal to non-nullable reference type.
+dotnet_diagnostic.CS8625.severity = silent

@@ -7,6 +7,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { LoginComponent } from './user/login/login.component';
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { MoviesComponent } from './movies/movies/movies.component';
 import { Paths } from './shared/constants';
 import { PaymentsComponent } from './payments/payments.component';
 import { RegistrationComponent } from './user/registration/registration.component';
@@ -38,6 +39,7 @@ export const routes: Routes = [
             },
             { path: Paths.USER_DETAILS, component: UserDetailsComponent },
             { path: Paths.PAYMENT, component: PaymentsComponent },
+            { path: Paths.MOVIE, component: MoviesComponent },
             { path: Paths.FORBIDDEN, component: ForbiddenComponent }
         ]
     }    

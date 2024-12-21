@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { environment } from '../../../environments/environment';
-import { Paths } from '../constants';
-import { UserPaymentMethod } from '../models/user-payment-method.model';
+import { environment } from '../../../../environments/environment';
+import { Paths } from '../../constants';
+import { UserPaymentMethod } from '../../models/payments/user-payment-method.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,9 +18,7 @@ export class UserPaymentMethodService {
 
   refreshList() {
     this.http.get(this.url).subscribe({
-      next: res => {
-        this.userPaymentMethods = res as UserPaymentMethod[];
-      },
+      next: res => { this.userPaymentMethods = res as UserPaymentMethod[]; },
       error: err => { console.log('Error during geting UserPaymentMethods', err) }
     })
   }
@@ -30,7 +28,7 @@ export class UserPaymentMethodService {
     return met ? met.paymentMethodName : '';
   }
 
-  addUserPaymentMethod(userPaymentMethod: UserPaymentMethod) {
+  postUserPaymentMethod(userPaymentMethod: UserPaymentMethod) {
     return this.http.post(this.url, userPaymentMethod)
   }
 

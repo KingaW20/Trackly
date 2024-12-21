@@ -1,4 +1,9 @@
-﻿using Trackly.Repositories.Payments;
+﻿using Trackly.Repositories;
+using Trackly.Repositories.Movies;
+using Trackly.Repositories.Payments;
+using Trackly.Repositories.TvSeries;
+using Trackly.Services;
+using Trackly.Services.Movies;
 using Trackly.Services.Payments;
 
 namespace Trackly.Extensions
@@ -13,6 +18,13 @@ namespace Trackly.Extensions
             services.AddScoped<UserPaymentMethodRepository>();
             services.AddScoped<PaymentRepository>();
 
+            services.AddScoped<ImageRepository>();
+
+            services.AddScoped<MovieRepository>();
+            services.AddScoped<TvSerieRepository>();
+            services.AddScoped<TvSerieEpisodeRepository>();
+            services.AddScoped<UserProgramRepository>();
+
             return services;
         }
         public static IServiceCollection InjectServices(this IServiceCollection services)
@@ -21,6 +33,13 @@ namespace Trackly.Extensions
             services.AddScoped<PaymentMethodService>();
             services.AddScoped<UserPaymentMethodService>();
             services.AddScoped<PaymentService>();
+
+            services.AddScoped<ImageService>();
+
+            services.AddScoped<MovieService>();
+            services.AddScoped<TvSerieService>();
+            services.AddScoped<TvSerieEpisodeService>();
+            services.AddScoped<UserProgramService>();
 
             return services;
         }

@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
-import { environment } from '../../../environments/environment';
-import { Paths } from '../constants';
-import { PaymentMethod } from '../models/payment-method.model';
-import { PaymentMethodComponent } from '../../payments/payment-method/payment-method.component';
+import { environment } from '../../../../environments/environment';
+import { Paths } from '../../constants';
+import { PaymentMethod } from '../../models/payments/payment-method.model';
+import { PaymentMethodComponent } from '../../../payments/payment-method/payment-method.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,10 +24,7 @@ export class PaymentMethodService {
 
   refreshList() {
     this.http.get(this.url).subscribe({
-      next: res => {
-        this.paymentMethods = res as PaymentMethod[];
-        console.log(this.paymentMethods)
-      },
+      next: res => { this.paymentMethods = res as PaymentMethod[]; },
       error: err => { console.log(err) }
     })
   }
@@ -37,7 +34,7 @@ export class PaymentMethodService {
     return met ? met.name : '';
   }
 
-  addPaymentMethod(paymentMethodName: string) {
+  postPaymentMethod(paymentMethodName: string) {
     return this.http.post(this.url, { name : paymentMethodName } )
   }
 
@@ -54,7 +51,7 @@ export class PaymentMethodService {
       .open(PaymentMethodComponent)
       .afterClosed().subscribe( (result: { name: string } | undefined) => {
         if (result && result!.name) {
-          this.addPaymentMethod(result.name).subscribe({
+          this.postPaymentMethod(result.name).subscribe({
             next: res => {
               this.paymentMethods = res as PaymentMethod[]    // list update
               this.toastr.success('Dodano nową metodę płatności: ' + result.name, 'Nowa metoda płatności');

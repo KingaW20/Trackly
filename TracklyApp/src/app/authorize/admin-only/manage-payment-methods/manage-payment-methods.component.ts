@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
-import { PaymentMethodService } from '../../../shared/services/payment-method.service';
+import { PaymentMethodService } from '../../../shared/services/payments/payment-method.service';
 import { Values } from '../../../shared/constants';
 
 @Component({

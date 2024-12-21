@@ -5,7 +5,9 @@ export function ChangeDateFormatToString(date: Date) : string {
     return `${day}-${month}-${year}`;
 }
 
-export function ChangeDateFormatToDate(date: string) : Date {
+export function ChangeDateFormatToDate(date: string) : Date | null {
+    if (date == "") return null;
+
     const dateRegex = /^\d{2}-\d{2}-\d{4}$/;
     if (!dateRegex.test(date))
         throw new Error("Invalid date format. Expected DD-MM-YYYY.");

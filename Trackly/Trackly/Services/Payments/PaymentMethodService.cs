@@ -1,6 +1,6 @@
 ﻿using Trackly.Models.Payments;
 using Trackly.Repositories.Payments;
-using Trackly.Utils;
+using Trackly.Utils.Exceptions;
 
 namespace Trackly.Services.Payments
 {

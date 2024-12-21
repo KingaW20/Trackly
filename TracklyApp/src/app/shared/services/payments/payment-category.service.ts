@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
 
-import { environment } from '../../../environments/environment';
-import { Paths } from '../constants';
-import { PaymentCategory } from '../models/payment-category.model';
-import { PaymentCategoryComponent } from '../../payments/payment-category/payment-category.component';
+import { environment } from '../../../../environments/environment';
+import { Paths } from '../../constants';
+import { PaymentCategory } from '../../models/payments/payment-category.model';
+import { PaymentCategoryComponent } from '../../../payments/payment-category/payment-category.component';
 
 @Injectable({
   providedIn: 'root'
@@ -24,13 +24,9 @@ export class PaymentCategoryService {
 
   refreshList() {
     this.http.get(this.url).subscribe({
-      next: res => {
-        this.paymentCategories = res as PaymentCategory[];
-        console.log(this.paymentCategories)
-      },
+      next: res => { this.paymentCategories = res as PaymentCategory[]; },
       error: err => { console.log(err) }
     })
-    console.log("categories refreshed")
   }
 
   getCategoryById(id: number | null) {
@@ -40,10 +36,9 @@ export class PaymentCategoryService {
 
   getCategoryByName(name: string) {
     var cat = this.paymentCategories.find( cat => cat.name == name );
-    console.log(cat)
     if (cat == null)
     {
-      this.addCategory(name).subscribe({
+      this.postCategory(name).subscribe({
         next: res => {
           this.paymentCategories = res as PaymentCategory[]    // list update
           this.toastr.success('Dodano nową kategorię: ' + name, 'Kategoria');
@@ -59,7 +54,7 @@ export class PaymentCategoryService {
     return cat ? cat : null
   }
 
-  addCategory(categoryName: string) {
+  postCategory(categoryName: string) {
     return this.http.post(this.url, { name : categoryName } )
   }
 
@@ -76,7 +71,7 @@ export class PaymentCategoryService {
       .open(PaymentCategoryComponent)
       .afterClosed().subscribe( (result: { name: string } | undefined) => {
         if (result && result!.name) {
-          this.addCategory(result.name).subscribe({
+          this.postCategory(result.name).subscribe({
             next: res => {
               this.paymentCategories = res as PaymentCategory[]    // list update
               this.toastr.success('Dodano nową kategorię: ' + result.name, 'Kategoria');

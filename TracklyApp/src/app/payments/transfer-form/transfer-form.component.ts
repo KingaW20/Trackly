@@ -9,12 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 
 import { ChangeDateFormatToString } from '../../shared/utils/date-format';
-import { Payment } from '../../shared/models/payment.model';
-import { PaymentCategoryService } from '../../shared/services/payment-category.service';
-import { PaymentService } from '../../shared/services/payment.service';
-import { UserPaymentMethod } from '../../shared/models/user-payment-method.model';
+import { Payment } from '../../shared/models/payments/payment.model';
+import { PaymentCategoryService } from '../../shared/services/payments/payment-category.service';
+import { PaymentService } from '../../shared/services/payments/payment.service';
+import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
 import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-method.component';
-import { UserPaymentMethodService } from '../../shared/services/user-payment-method.service';
+import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 import { Values } from '../../shared/constants';
 
 @Component({
@@ -54,13 +54,11 @@ export class TransferFormComponent {
   onMethodFromChange(): void {
     this.service.transferFormData.from = 
       this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.fromId);
-    console.log(this.service.transferFormData.from)
   }
 
   onMethodToChange(): void {
     this.service.transferFormData.to = 
       this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.toId);
-    console.log(this.service.transferFormData.to)
   }
 
   onDateChange(event: Date | null): void {
@@ -105,7 +103,7 @@ export class TransferFormComponent {
     this.dialogRef.afterClosed().subscribe( () => {
       var result = this.userPaymentMethodService.choosedUpm
       if (result.id != 0) {
-        this.userPaymentMethodService.addUserPaymentMethod(result).subscribe({
+        this.userPaymentMethodService.postUserPaymentMethod(result).subscribe({
           next: res => {
             this.userPaymentMethodService.userPaymentMethods = res as UserPaymentMethod[]    // list update
             this.toastr.success('Dodano nowe konto płatnościowe: ' + result.paymentMethodName, 'Metoda płatności');

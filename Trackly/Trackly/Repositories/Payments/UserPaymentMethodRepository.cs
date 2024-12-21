@@ -13,7 +13,8 @@ namespace Trackly.Repositories.Payments
             _context = context;
         }
 
-        public async Task<IEnumerable<UserPaymentMethod>> GetUserPaymentMethods(int? idNot = null, string? userId = null, int? paymentMethodId = null)
+        public async Task<IEnumerable<UserPaymentMethod>> GetUserPaymentMethods(
+            int? idNot = null, string? userId = null, int? paymentMethodId = null)
         {
             var query = _context.UserPaymentMethods.AsQueryable();
 

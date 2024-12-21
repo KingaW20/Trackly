@@ -79,12 +79,10 @@ export class RegistrationComponent implements OnInit {
               switch(x.code) {
                 case "DuplicateUserName":
                   this.toastr.error('Ta nazwa użytkownika jest już zajęta.', "Rejestracja się nie powiodła")
-                  break;
-  
+                  break;  
                 case "DuplicateEmail":
                   this.toastr.error('Adres email jest już zajęty. Proszę podać inny.', "Rejestracja się nie powiodła")
-                  break;
-  
+                  break;  
                 default:
                   this.toastr.error('Skontaktuj się z deweloperem.', "Rejestracja się nie powiodła")
                   console.log(x);

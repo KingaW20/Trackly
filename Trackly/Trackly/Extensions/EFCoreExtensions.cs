@@ -15,6 +15,12 @@ namespace Trackly.Extensions
             services.AddDbContext<PaymentContext>(
                 options => options.UseSqlServer(config.GetConnectionString(Constants.Settings.DevConnection)));
 
+            services.AddDbContext<ImageContext>(
+                options => options.UseSqlServer(config.GetConnectionString(Constants.Settings.DevConnection)));
+
+            services.AddDbContext<MovieContext>(
+                options => options.UseSqlServer(config.GetConnectionString(Constants.Settings.DevConnection)));
+
             return services;
         }
 

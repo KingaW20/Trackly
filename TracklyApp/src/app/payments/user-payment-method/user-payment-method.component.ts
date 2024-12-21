@@ -5,9 +5,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
-import { PaymentMethodService } from '../../shared/services/payment-method.service';
-import { UserPaymentMethod } from '../../shared/models/user-payment-method.model';
-import { UserPaymentMethodService } from '../../shared/services/user-payment-method.service';
+import { PaymentMethodService } from '../../shared/services/payments/payment-method.service';
+import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
+import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 
 @Component({
   selector: 'app-user-payment-method',

@@ -2,11 +2,11 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
-import { environment } from '../../../environments/environment';
-import { Paginator } from '../models/paginator.model';
-import { Paths } from '../constants';
-import { Payment } from '../models/payment.model';
-import { Transfer } from '../models/transfer.model';
+import { environment } from '../../../../environments/environment';
+import { Paginator } from '../../models/paginator.model';
+import { Paths } from '../../constants';
+import { Payment } from '../../models/payments/payment.model';
+import { Transfer } from '../../models/transfer.model';
 
 @Injectable({
   providedIn: 'root'
@@ -25,7 +25,7 @@ export class PaymentService {
   transferFormData : Transfer = new Transfer()
   transferFormShown : boolean = false
 
-  paginator : Paginator = new Paginator()
+  paginator : Paginator = new Paginator({})
 
   constructor(private http: HttpClient) { }
 
@@ -37,9 +37,7 @@ export class PaymentService {
     this.http.get(this.url).subscribe({
       next: res => {
         this.allPayments = res as Payment[];
-        this.paginator.currentPage = 1;
-        this.paginator.updatePaginatorInfo(this.allPayments)        
-        this.currentPayments = this.paginator.getListPart(this.allPayments)
+        this.changePage(1)
       },
       error: err => { console.log(err) }
     })
@@ -54,30 +52,6 @@ export class PaymentService {
     this.paginator.currentPage = newPage
     this.paginator.updatePaginatorInfo(this.allPayments)
     this.currentPayments = this.paginator.getListPart(this.allPayments)
-  }
-
-  canShowPage(previous: boolean) {
-    if (previous)
-      return this.paginator.pages[0] <= 1
-    else
-      return this.paginator.pages[this.paginator.pages.length - 1] >= this.paginator.totalPages
-  }
-
-  changePagesShown(previous: boolean) {
-    if (previous)
-    {
-      let firstPage = this.paginator.pages[0]
-      this.paginator.pages.pop()
-      this.paginator.pages.push(firstPage - 1)
-      this.paginator.pages.sort((a, b) => a - b);
-    }
-    else
-    {
-      let lastPage = this.paginator.pages[this.paginator.pages.length - 1]
-      this.paginator.pages.shift()    // removing first page
-      this.paginator.pages.push(lastPage + 1)
-      this.paginator.pages.sort((a, b) => a - b);
-    }
   }
 
   postPayment() {

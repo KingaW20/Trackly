@@ -23,11 +23,11 @@
                 </div>
             </div>
 
-            <nav aria-label="Page navigation example">
+            <nav>
                 <ul class="pagination justify-content-center">
-                    <li class="page-item mouse-hover" [class.disabled]="service.canShowPage(true)">
+                    <li class="page-item mouse-hover" [class.disabled]="service.paginator.canShowPage(true)">
                         <a class="page-link" aria-label="Previous"
-                            (click)="service.changePagesShown(true)">
+                            (click)="service.paginator.changePagesShown(true)">
                         <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
@@ -37,9 +37,9 @@
                         <a class="page-link" (click)="service.changePage(page)">{{ page }}</a>
                     </li>
 
-                    <li class="page-item mouse-hover" [class.disabled]="service.canShowPage(false)">
+                    <li class="page-item mouse-hover" [class.disabled]="service.paginator.canShowPage(false)">
                         <a class="page-link" aria-label="Next"
-                            (click)="service.changePagesShown(false)">
+                            (click)="service.paginator.changePagesShown(false)">
                         <span aria-hidden="true">&raquo;</span>
                         </a>
                     </li>

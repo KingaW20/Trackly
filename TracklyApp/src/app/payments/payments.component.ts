@@ -3,9 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 
 import { ChangeDateFormatToDate } from '../shared/utils/date-format';
-import { Payment } from '../shared/models/payment.model';
+import { Payment } from '../shared/models/payments/payment.model';
 import { PaymentFormComponent } from './payment-form/payment-form.component';
-import { PaymentService } from '../shared/services/payment.service';
+import { PaymentService } from '../shared/services/payments/payment.service';
 import { TransferFormComponent } from './transfer-form/transfer-form.component';
 import { UserPaymentAccountsComponent } from './user-payment-accounts/user-payment-accounts.component';
 

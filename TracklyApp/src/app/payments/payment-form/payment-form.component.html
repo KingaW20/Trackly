@@ -2,7 +2,7 @@
     <input type="hidden" name="id" [value]="service.paymentFormData.id">
 
     <div class="row">
-        <div class="btn-group mb-3" role="group" aria-label="Basic radio toggle button group">
+        <div class="btn-group mb-3" role="group">
             <input type="radio" class="btn-check" name="paymentType" id="true" autocomplete="off" 
                 [(ngModel)]="service.paymentFormData.isOutcome" [value]="true">
             <label class="btn btn-outline-primary" for="true"> {{Values.OUTCOME}} </label>
