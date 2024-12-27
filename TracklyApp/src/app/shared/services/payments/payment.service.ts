@@ -3,15 +3,15 @@ import { Injectable } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 import { environment } from '../../../../environments/environment';
-import { Paginator } from '../../models/paginator.model';
 import { Paths } from '../../constants';
 import { Payment } from '../../models/payments/payment.model';
 import { Transfer } from '../../models/transfer.model';
+import { PaginatableService } from "../paginatable.service";
 
 @Injectable({
   providedIn: 'root'
 })
-export class PaymentService {
+export class PaymentService extends PaginatableService {
 
   url : string = environment.apiBaseUrl + "/" + Paths.PAYMENT
   allPayments : Payment[] = []
@@ -25,9 +25,9 @@ export class PaymentService {
   transferFormData : Transfer = new Transfer()
   transferFormShown : boolean = false
 
-  paginator : Paginator = new Paginator({})
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    super();
+  }
 
   refreshList(){
     // const params = new HttpParams()
@@ -48,9 +48,8 @@ export class PaymentService {
     this.changePage(this.paginator.currentPage)
   }
 
-  changePage(newPage: number) {
-    this.paginator.currentPage = newPage
-    this.paginator.updatePaginatorInfo(this.allPayments)
+  override changePage(newPage: number, listLength?: number) {
+    super.changePage(newPage, this.allPayments.length);
     this.currentPayments = this.paginator.getListPart(this.allPayments)
   }
 

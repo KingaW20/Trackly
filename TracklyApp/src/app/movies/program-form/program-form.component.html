@@ -13,32 +13,24 @@
         </div>
 
         <div>
-            <div class="mb-3">
+            <div class="mb-3 position-relative">
                 <label>Tytuł</label>
-                <input class="form-control form-control-lg" 
-                    [placeholder]="upService.userProgramFormData.isMovie ? 'Tytuł filmu' : 'Tytuł serialu'"
-                    #title="ngModel" name="title" [(ngModel)]="upService.userProgramFormData.program.title"
-                    (change)="updateData()" required>
-                <!-- <div class="d-flex justify-content-between">
-                    <div class="col-10">
-                        <select class="form-control form-control-lg"
-                                [(ngModel)]="service.paymentFormData.categoryId"
-                                (ngModelChange)="onCategoryChange()"
-                                #paymentCategoryName="ngModel"
-                                name="paymentCategoryName"
-                                required>
-                            <option value="null" disabled selected hidden>Nie wybrano</option>
-                            <option *ngFor="let cat of categoryService.paymentCategories; trackBy: trackById;" [value]="cat.id">
-                                {{ cat.name }}
-                            </option>
-                        </select>
-                    </div>
-                    <button mat-raised-button class="btn btn-success" type="button"
-                            (click)="categoryService.onAddNewCategory()" 
-                            title="Dodaj nową kategorię płatności">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div> -->
+                <input class="form-control form-control-lg"
+                       [placeholder]="upService.userProgramFormData.isMovie ? 'Tytuł filmu' : 'Tytuł serialu'"
+                       [attr.list]="showTitlesList ? null : 'titleOptions'"
+                       #titleInput="ngModel"
+                       name="title"
+                       [(ngModel)]="upService.userProgramFormData.program.title"
+                       (input)="filterTitles()"
+                       (change)="updateData()"
+                       (focus)="showTitlesList = true"
+                       (blur)="hideList()"
+                       required>
+                <datalist id="titleOptions" *ngIf="showTitlesList && titlesList.length > 0">
+                    <option *ngFor="let title of titlesList" [value]="title" (click)="onTitleClick(title)">
+                        <p> {{ title }} </p>
+                    </option>
+                </datalist>
             </div>
         </div>
         
@@ -59,7 +51,7 @@
                 <label>Czas</label>
                 <input class="form-control form-control-lg" placeholder="Czas w minutach"
                     #time="ngModel" name="time" [(ngModel)]="upService.userProgramFormData.program.time"
-                    pattern="^\d+$" required>
+                    pattern="^[1-9]\d*$" required>
 
                 <div class="error-feedback" *ngIf="upService.formSubmitted">
                     <div *ngIf="time.hasError('pattern')">
@@ -73,7 +65,7 @@
                     <label>Sezon</label>
                     <input class="form-control form-control-lg" placeholder="Numer sezonu"
                         #season="ngModel" name="season" [(ngModel)]="upService.userProgramFormData.program.season"
-                        pattern="^\d+$" (change)="updateData()" required>
+                        pattern="^[1-9]\d*$" (change)="updateData()" required>
     
                     <div class="error-feedback" *ngIf="upService.formSubmitted">
                         <div *ngIf="season.hasError('pattern')">
@@ -86,7 +78,7 @@
                     <label>Odcinek</label>
                     <input class="form-control form-control-lg" placeholder="Numer odcinka"
                         #episode="ngModel" name="episode" [(ngModel)]="upService.userProgramFormData.program.episode"
-                        pattern="^\d+$" (change)="updateData()" required>
+                        pattern="^[1-9]\d*$" (change)="updateData()" required>
     
                     <div class="error-feedback" *ngIf="upService.formSubmitted">
                         <div *ngIf="episode.hasError('pattern')">
@@ -96,13 +88,16 @@
                 </div>
                 <div class="col-1"></div>
             </div>
-            
         </div>
 
         <div class="col-6 justify-content-center text-center">
             <img class="mb-3" [src]="imageUrl" [style.width.px]="Values.IMAGE_WIDTH"
                 [style.height.px]="upService.getImageHeight(upService.userProgramFormData.program.image)">
-            <input class="btn btn-sm btn-info" type="file" #Image accept="image/*" (change)="onUploadFile($event)">
+            <div>
+                <label for="fileInput" class="btn btn-sm btn-info">Wybierz plik</label>
+                <input id="fileInput" type="file" #Image accept="image/*" (change)="onUploadFile($event)" style="display: none;">
+                <span class="ms-2"> {{ selectedFileName || 'Nie wybrano pliku' }} </span>
+            </div>
         </div>
     </div>
 

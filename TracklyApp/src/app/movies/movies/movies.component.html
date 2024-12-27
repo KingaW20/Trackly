@@ -11,28 +11,7 @@
         <button class="btn btn-lg btn-success">Miesiąc lub Rok</button>
     </div>
     
-    <nav>
-        <ul class="pagination justify-content-center">
-            <li class="page-item mouse-hover" [class.disabled]="upService.paginator.canShowPage(true)">
-                <a class="page-link" aria-label="Previous"
-                    (click)="upService.paginator.changePagesShown(true)">
-                <span aria-hidden="true">&laquo;</span>
-                </a>
-            </li>
-    
-            <li class="page-item mouse-hover" *ngFor="let page of upService.paginator.pages"
-                [class.active]="page == upService.paginator.currentPage">
-                <a class="page-link" (click)="upService.changePage(page)">{{ page }}</a>
-            </li>
-    
-            <li class="page-item mouse-hover" [class.disabled]="upService.paginator.canShowPage(false)">
-                <a class="page-link" aria-label="Next"
-                    (click)="upService.paginator.changePagesShown(false)">
-                <span aria-hidden="true">&raquo;</span>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <app-pagination [service]="upService"></app-pagination>
 
     <ul class="list-group d-grid" style="grid-template-columns: repeat(4, 1fr); gap: 20px;">
         <li class="list-group-item mb-2 border px-4 py-3 rounded-3"
@@ -48,8 +27,8 @@
             </div>
     
             <div class="text-center mb-2 d-flex justify-content-center align-items-center" [style.height.px]="Values.MAX_IMAGE_HEIGHT">
-                <img [src]="up.program.image?.source" alt="Movie Image"
-                [style.height.px]="upService.getImageHeight(up.program.image)" [style.width.px]="Values.IMAGE_WIDTH">
+                <img [src]="up.program.image?.source || '/empty_image.png'" alt="Movie Image"
+                    [style.height.px]="upService.getImageHeight(up.program.image)" [style.width.px]="Values.IMAGE_WIDTH">
             </div>
     
             <div class="text-center mb-2 fw-bold"> {{up.isMovie ? "" : getTvSerieText(up)}} {{up.program.title}} </div>

@@ -8,11 +8,15 @@ import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { PaymentService } from '../shared/services/payments/payment.service';
 import { TransferFormComponent } from './transfer-form/transfer-form.component';
 import { UserPaymentAccountsComponent } from './user-payment-accounts/user-payment-accounts.component';
+import { PaginationComponent } from '../pagination/pagination.component';
 
 @Component({
   selector: 'app-payments',
   standalone: true,
-  imports: [PaymentFormComponent, TransferFormComponent, CommonModule, UserPaymentAccountsComponent],
+  imports: [
+    CommonModule, PaginationComponent, 
+    PaymentFormComponent, TransferFormComponent, UserPaymentAccountsComponent 
+  ],
   templateUrl: './payments.component.html',
   styles: []
 })

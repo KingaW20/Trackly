@@ -23,7 +23,9 @@ export class MovieService {
 
   refreshList() {
     this.http.get(this.url).subscribe({
-      next: res => { this.movies = res as Movie[]; },
+      next: res => { 
+        this.movies = res as Movie[]; 
+      },
       error: err => { console.log('Error during geting Movies', err) }
     })
   }

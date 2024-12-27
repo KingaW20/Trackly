@@ -24,7 +24,8 @@ namespace Trackly.Services
         public async Task<Image?> GetImage(int? id)
         {
             var result = await _imgRepository.GetImage(id);
-            if (result == null) throw new NotFoundException();
+            //if (result == null) throw new NotFoundException();
+            if (result == null) return null;
             result.Source = "data:image/" + result.FileExtension + ";base64," + Convert.ToBase64String(result.Bytes);
             return result;
         }

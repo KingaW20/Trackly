@@ -23,8 +23,8 @@ export class Paginator {
         return list.slice((this.currentPage - 1)*this.pageItemNumber, this.currentPage*this.pageItemNumber)
     }
 
-    updatePaginatorInfo(list: any[]) {
-        this.totalPages = Math.ceil(list.length / this.pageItemNumber)
+    updatePaginatorInfo(listLength: number) {
+        this.totalPages = Math.ceil(listLength / this.pageItemNumber)
         if (this.totalPages == 0) this.totalPages = 1
     
         this.pages = []

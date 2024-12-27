@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,8 +21,8 @@ import { Values } from '../../shared/constants';
   selector: 'app-program-form',
   standalone: true,
   imports: [ 
-    FormsModule, CommonModule,
-    MatFormFieldModule, MatInputModule, MatDatepickerModule
+    CommonModule, FormsModule, MatAutocompleteModule,
+    MatDatepickerModule, MatFormFieldModule, MatInputModule
   ],
   templateUrl: './program-form.component.html',
   styles: ``,
@@ -34,6 +35,9 @@ export class ProgramFormComponent {
 
   Values = Values
   imageUrl : string = "/default_upload2.png"
+  titlesList: string[] = [];
+  showTitlesList = false;
+  selectedFileName: string | null = null;
 
   @ViewChild('form') form?: NgForm;
 
@@ -47,10 +51,6 @@ export class ProgramFormComponent {
   ){ }
 
   ngOnInit() {
-    this.refreshInfo();
-  }
-
-  refreshInfo() {
     this.imgService.refreshList();
     this.mService.refreshList();
     this.tvSerieService.refreshList();
@@ -62,7 +62,7 @@ export class ProgramFormComponent {
       this.upService.userProgramFormData.date = ChangeDateFormatToString(event)
     else 
       this.upService.userProgramFormData.date = '';
-    console.log('Data changed', this.upService.userProgramFormData.date)
+    console.log('Date changed', this.upService.userProgramFormData.date)
   }
 
   clearForm(): void {
@@ -76,11 +76,36 @@ export class ProgramFormComponent {
       .then((url: string) => {
         console.log("Uploaded image", this.upService.userProgramFormData.program.image);
         this.imageUrl = url || "/default_upload2.png";
+        this.selectedFileName = this.upService.userProgramFormData.program.image!.name;
       })
       .catch((err) => {
         console.error("File upload error:", err);
         this.imageUrl = "/default_upload2.png";
+        this.selectedFileName = null;
       })
+  }
+
+  filterTitles(): void {
+    const isMovie = this.upService.userProgramFormData.isMovie;
+    const titles = isMovie ? this.upService.movieTitles : this.upService.tvSerieTitles;
+    const inputValue = this.upService.userProgramFormData.program.title.toLowerCase();
+
+    this.titlesList = titles.filter(title => 
+      title.toLowerCase().includes(inputValue)
+    );
+    this.showTitlesList = this.titlesList.length > 0;
+  }
+
+  hideList(): void {
+    setTimeout(() => {
+      this.showTitlesList = false;
+      this.titlesList = [];
+    }, 200);
+  }
+
+  onTitleClick(title: string): void {
+    this.upService.userProgramFormData.program.title = title;
+    this.updateData();
   }
 
   updateData() {
@@ -101,6 +126,7 @@ export class ProgramFormComponent {
     this.upService.userProgramFormData.program.imageId = img?.id ?? this.upService.userProgramFormData.program.imageId;
     this.upService.userProgramFormData.program.image = img ?? this.upService.userProgramFormData.program.image;
     this.imageUrl = img?.source ?? this.upService.userProgramFormData.program.image?.source ?? "/default_upload2.png";
+    this.selectedFileName = this.upService.userProgramFormData.program.image?.name ?? null;
   }
 
   onSubmit(form: NgForm) {

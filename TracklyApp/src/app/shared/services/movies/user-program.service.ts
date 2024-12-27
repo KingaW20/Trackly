@@ -6,6 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../../environments/environment';
 import { MovieService } from './movie.service';
 import { MyImage } from '../../models/image.model';
+import { PaginatableService } from '../paginatable.service';
 import { Paginator } from '../../models/paginator.model';
 import { Paths, Values } from '../../constants';
 import { TvSerieEpisodeService } from './tv-serie-episode.service';
@@ -15,12 +16,11 @@ import { UserProgram } from '../../models/movies/user-program.model';
 @Injectable({
   providedIn: 'root'
 })
-export class UserProgramService {
+export class UserProgramService extends PaginatableService {
   url : string = environment.apiBaseUrl + "/" + Paths.USER_PROGRAM
   allUserPrograms : UserProgram[] = []
   currentUserPrograms : UserProgram[] = []
 
-  paginator : Paginator = new Paginator({pageItemNumber: 12})
   Values = Values
 
   userProgramFormData : UserProgram = new UserProgram({})
@@ -28,21 +28,25 @@ export class UserProgramService {
   formSubmitted : boolean = false
   programFormShow : boolean = false
 
+  movieTitles : string[] = []
+  tvSerieTitles : string[] = []
+
   constructor(
     private http: HttpClient,
     private toastr: ToastrService,
     public mService: MovieService,
     public tseService : TvSerieEpisodeService,
     public tvSerieService : TvSerieService
-  ) { }
+  ) { 
+    super( new Paginator({pageItemNumber: 12}) ); 
+  }
 
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => {
         if (res != null) {
-          this.allUserPrograms = res as UserProgram[];
-          console.log(this.allUserPrograms)
-          this.changePage(1)
+          this.paginator.currentPage = 1
+          this.updateAllUserPrograms(res as UserProgram[])
         }
       },
       error: err => { console.log('Error during geting UserPrograms', err) }
@@ -51,12 +55,21 @@ export class UserProgramService {
 
   updateAllUserPrograms(userPrograms: UserProgram[]) {
     this.allUserPrograms = userPrograms
+    console.log(this.allUserPrograms)
     this.changePage(this.paginator.currentPage)
+    
+    this.movieTitles = []
+    this.tvSerieTitles = []
+    this.allUserPrograms.forEach(up => {
+      if (up.isMovie && !this.movieTitles.find(t => t == up.program.title))
+        this.movieTitles.push(up.program.title);
+      else if (!up.isMovie && !this.tvSerieTitles.find(t => t == up.program.title))
+        this.tvSerieTitles.push(up.program.title);
+    });
   }
 
-  changePage(newPage: number) {
-    this.paginator.currentPage = newPage
-    this.paginator.updatePaginatorInfo(this.allUserPrograms)
+  override changePage(newPage: number, listLength?: number) {
+    super.changePage(newPage, this.allUserPrograms.length);
     this.currentUserPrograms = this.paginator.getListPart(this.allUserPrograms)
   }
 

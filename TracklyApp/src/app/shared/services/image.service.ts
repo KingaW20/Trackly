@@ -54,10 +54,7 @@ export class ImageService {
     const subject = new Subject<number | null>();
     
     if (image == null)
-    {
-      subject.next(null);
-      subject.complete();
-    }
+      return of (null);
     else 
     {
       const img = this.findImage(image.name, image.fileExtension, image.bytes);

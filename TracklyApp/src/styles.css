@@ -87,3 +87,33 @@ body {
     "Helvetica Neue", 
     sans-serif; 
 }
+
+
+/* datalist - Titles in Movies and TvSeries */
+datalist {
+    display: block;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: white;
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    position: absolute;
+    z-index: 1000;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+}
+  
+datalist option {
+    font-size: 1rem;
+    color: #212529;
+    padding: 0.5rem 1rem; /* Dostosuj marginesy wewnętrzne */
+    white-space: nowrap; /* Zapobiega łamaniu linii */
+}
+  
+datalist option:hover {
+    background-color: #f8f9fa;
+    color: #495057;
+}
+ 

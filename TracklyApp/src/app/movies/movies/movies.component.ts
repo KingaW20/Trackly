@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
 
 import { ChangeDateFormatToDate } from '../../shared/utils/date-format';
+import { PaginationComponent } from '../../pagination/pagination.component';
 import { ProgramFormComponent } from '../program-form/program-form.component';
 import { UserProgramService } from '../../shared/services/movies/user-program.service';
 import { UserProgram } from '../../shared/models/movies/user-program.model';
@@ -12,7 +13,7 @@ import { Values } from '../../shared/constants';
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [ FormsModule, CommonModule, ProgramFormComponent ],
+  imports: [ CommonModule, FormsModule, PaginationComponent, ProgramFormComponent ],
   templateUrl: './movies.component.html',
   styles: ``
 })

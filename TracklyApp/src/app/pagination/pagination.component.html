@@ -1,0 +1,22 @@
+<nav>
+    <ul class="pagination justify-content-center">
+        <li class="page-item mouse-hover" [class.disabled]="service.paginator.canShowPage(true)">
+            <a class="page-link" aria-label="Previous"
+                (click)="service.paginator.changePagesShown(true)">
+            <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+
+        <li class="page-item mouse-hover" *ngFor="let page of service.paginator.pages"
+            [class.active]="page == service.paginator.currentPage">
+            <a class="page-link" (click)="service.changePage(page)">{{ page }}</a>
+        </li>
+
+        <li class="page-item mouse-hover" [class.disabled]="service.paginator.canShowPage(false)">
+            <a class="page-link" aria-label="Next"
+                (click)="service.paginator.changePagesShown(false)">
+            <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>
