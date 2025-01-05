@@ -7,6 +7,9 @@ import { ToastrService } from 'ngx-toastr';
 import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
 import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-method.component';
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
+import { GetFirstDayOfNextMonth } from '../../shared/utils/date-format';
+import { UserPaymentHistoryService } from '../../shared/services/payments/user-payment-history.service';
+import { PaymentService } from '../../shared/services/payments/payment.service';
 
 @Component({
   selector: 'app-user-payment-accounts',
@@ -22,8 +25,10 @@ export class UserPaymentAccountsComponent {
 
   constructor( 
     public upmService : UserPaymentMethodService, 
-    private toastr: ToastrService,
-    private dialog: MatDialog
+    public paymentService : PaymentService,
+    public userPaymentHistoryService : UserPaymentHistoryService,
+    private toastr : ToastrService,
+    private dialog : MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +42,7 @@ export class UserPaymentAccountsComponent {
         next: res => {
           this.upmService.userPaymentMethods = res as UserPaymentMethod[]    // list update
           this.toastr.info('Usunięto pomyślnie', 'Konto płatnościowe');
+          this.paymentService.refreshList();
         },
         error: err => { console.log(err) }
       })
@@ -45,24 +51,30 @@ export class UserPaymentAccountsComponent {
 
   onEdit(upm: UserPaymentMethod) : void {
     this.upmService.choosedUpm = Object.assign({}, upm)
+    this.upmService.choosedDate = new Date();
     this.dialogRef = this.dialog.open(UserPaymentMethodComponent)
+    const upmBeforeChange = this.upmService.getUserPaymentMethodById(upm.id)!;
 
     this.dialogRef.afterClosed().subscribe( () => {
       var result = this.upmService.choosedUpm
-      if (result.id != 0) {
-        this.upmService.putUserPaymentMethod(result).subscribe({
-          next: res => {
-            this.upmService.userPaymentMethods = res as UserPaymentMethod[]    // list update
-            this.toastr.success('Zaktualizowano konto płatnościowe: ' + result.paymentMethodName, 'Konto płatnościowe');
-          },
-          error: err => { 
-            if (err.status == 400)
-              this.toastr.error(err.error.message, "Nie dodano nowego konta płatnościowego")
-            else
-              console.log('Error during adding new user payment method: ', err);
-          }
-        })
-      }
+      this.paymentService.addRepairPayment(upmBeforeChange, result);
+      // if (result.id != 0) {
+      //   this.upmService.putUserPaymentMethod(result).subscribe({
+      //     next: res => {
+      //       this.upmService.userPaymentMethods = res as UserPaymentMethod[]    // list update
+
+      //       this.paymentService.addRepairPayment(upmBeforeChange, result);
+
+      //       this.toastr.success('Zaktualizowano konto płatnościowe: ' + result.paymentMethodName, 'Konto płatnościowe');
+      //     },
+      //     error: err => { 
+      //       if (err.status == 400)
+      //         this.toastr.error(err.error.message, "Nie dodano nowego konta płatnościowego")
+      //       else
+      //         console.log('Error during adding new user payment method: ', err);
+      //     }
+      //   })
+      // }
       this.upmService.choosedUpm = new UserPaymentMethod()
     });
   }

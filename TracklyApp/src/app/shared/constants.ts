@@ -19,6 +19,7 @@ export const Paths = {
     PAYMENT_CATEGORY: 'PaymentCategory',
     PAYMENT_METHOD: 'PaymentMethod',
     USER_PAYMENT_METHOD: 'UserPaymentMethod',
+    USER_PAYMENT_HISTORY: 'UserPaymentHistory',
 
     IMAGE: 'Image',
     MOVIE: 'Movie',
@@ -40,10 +41,12 @@ export const Values = {
     INCOME: 'Przychód',
     OUTCOME: 'Wydatek',
     TRANSFER: 'Przelew',
+    INCORRECTNESS: 'Niedopatrzenie',
     MOVIE: 'Film',
     TV_SERIE: 'Serial',
     IMAGE_WIDTH: 160,
     MAX_IMAGE_HEIGHT: 200,
     MANAGE_PAYMENT_CATEGORIES: 'managePaymentCategories',
-    MANAGE_PAYMENT_METHODS: 'managePaymentMethods'
+    MANAGE_PAYMENT_METHODS: 'managePaymentMethods',
+    ALL_YEAR: 'Cały rok'
 }

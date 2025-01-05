@@ -1,4 +1,5 @@
-﻿using Trackly.Models.Payments;
+﻿using System.Net;
+using Trackly.Models.Payments;
 using Trackly.Repositories.Payments;
 using Trackly.Utils.Exceptions;
 
@@ -21,14 +22,18 @@ namespace Trackly.Services.Payments
         public async Task<IEnumerable<Payment>> GetPayments(string? userId = null)
         {
             var upmIds = (await _upmService.GetUserPaymentMethods(userId: userId)).Select(upm => upm.Id).ToList();
-            var payments = await _pRepository.GetPayments(userPaymentMethodIds: upmIds);
-            foreach (var p in payments)
+            if (upmIds.Any()) 
             {
-                p.PaymentMethodName = await GetUserPaymentMethodName(p.UserPaymentMethodId, userId);
-                p.PaymentCategoryName = await GetPaymentCategoryName(p.CategoryId);
+                var payments = await _pRepository.GetPayments(userPaymentMethodIds: upmIds);
+                foreach (var p in payments)
+                {
+                    p.PaymentMethodName = await GetUserPaymentMethodName(p.UserPaymentMethodId, userId);
+                    p.PaymentCategoryName = await GetPaymentCategoryName(p.CategoryId);
+                }
+                return payments ?? new List<Payment>();
             }
 
-            return payments;
+            return new List<Payment>();
         }
 
         public async Task<Payment?> GetPayment(int id, string userId)
@@ -105,7 +110,7 @@ namespace Trackly.Services.Payments
             return !(userPayments == null || !userPayments!.ToList().Any(p => p.Id == paymentId));
         }
 
-        private async Task<string> GetUserPaymentMethodName(int upmId, string userId)
+        private async Task<string> GetUserPaymentMethodName(int upmId, string? userId)
         {
             UserPaymentMethod upm = await _upmService.GetUserPaymentMethod(upmId, userId);
             return upm?.PaymentMethodName ?? "";

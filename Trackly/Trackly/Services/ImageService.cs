@@ -1,6 +1,5 @@
 ﻿using Trackly.Models;
 using Trackly.Repositories;
-using Trackly.Utils.Exceptions;
 
 namespace Trackly.Services
 {

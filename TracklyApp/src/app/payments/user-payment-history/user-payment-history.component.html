@@ -1,0 +1,11 @@
+<app-month-year *ngIf="ready" [service]="uphService" [list]="pService.allPayments"></app-month-year>
+
+<ul class="list-group" *ngIf="uphService.userPaymentHistories.length > 0">
+    <li class="list-group-item d-flex justify-content-between align-items-start mb-2 border px-4 py-3 rounded-3 mouse-hover" 
+        *ngFor="let b of uphService.balances">
+        <h3>{{ b.paymentMethodName }}</h3>
+        <p>{{ b.startSum }}</p>
+        <p>{{ b.endSum }}</p>
+        <p>{{ b.balance }}</p>
+    </li>
+</ul>

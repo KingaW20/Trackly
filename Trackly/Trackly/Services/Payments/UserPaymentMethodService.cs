@@ -8,12 +8,15 @@ namespace Trackly.Services.Payments
     {
         private readonly UserPaymentMethodRepository _upmRepository;
         private readonly PaymentMethodService _pmService;
+        private readonly UserPaymentHistoryRepository _uphRepository;
 
-        public UserPaymentMethodService(UserPaymentMethodRepository userPaymentMethodRepository, 
-            PaymentMethodService paymentMethodService)
+        public UserPaymentMethodService(
+            UserPaymentMethodRepository userPaymentMethodRepository, PaymentMethodService paymentMethodService,
+            UserPaymentHistoryRepository userPaymentHistoryRepository)
         {
             _upmRepository = userPaymentMethodRepository;
             _pmService = paymentMethodService;
+            _uphRepository = userPaymentHistoryRepository;
         }
 
         public async Task<IEnumerable<UserPaymentMethod>> GetUserPaymentMethods(string? userId = null)
@@ -25,7 +28,7 @@ namespace Trackly.Services.Payments
             return userPaymentsMethods;
         }
 
-        public async Task<UserPaymentMethod?> GetUserPaymentMethod(int id, string userId)
+        public async Task<UserPaymentMethod?> GetUserPaymentMethod(int id, string? userId)
         {
             var result = await _upmRepository.GetUserPaymentMethod(id);
 
@@ -79,12 +82,18 @@ namespace Trackly.Services.Payments
             var upm = await _upmRepository.GetUserPaymentMethod(id);
             if (upm == null) throw new NotFoundException();
             if (upm.UserId != userId) throw new UserPaymentMethodNotAccessedException();
+
+            //Delete account history
+            foreach(var uph in await _uphRepository.GetUserPaymentHistories(userPaymentMethodIds: new List<int>() { id }))
+                await _uphRepository.DeleteUserPaymentHistory(uph);
+
             await _upmRepository.DeleteUserPaymentMethod(upm);
         }
 
         public async Task<bool> IsUserPaymentMethod(int userPaymentMethodId, string userId)
         {
             var userPaymentMethods = await _upmRepository.GetUserPaymentMethods(userId: userId);
+            if (userPaymentMethods == null) throw new UserPaymentMethodNotExistException();
             return !(userPaymentMethods == null || !userPaymentMethods.ToList().Any(upm => upm.Id == userPaymentMethodId));
         }
 

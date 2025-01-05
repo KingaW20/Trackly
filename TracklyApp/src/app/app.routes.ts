@@ -13,6 +13,7 @@ import { PaymentsComponent } from './payments/payments.component';
 import { RegistrationComponent } from './user/registration/registration.component';
 import { UserComponent } from './user/user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserPaymentHistoryComponent } from './payments/user-payment-history/user-payment-history.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: Paths.SIGN_IN, pathMatch: 'full' },
@@ -39,6 +40,7 @@ export const routes: Routes = [
             },
             { path: Paths.USER_DETAILS, component: UserDetailsComponent },
             { path: Paths.PAYMENT, component: PaymentsComponent },
+            { path: Paths.USER_PAYMENT_HISTORY, component: UserPaymentHistoryComponent },
             { path: Paths.MOVIE, component: MoviesComponent },
             { path: Paths.FORBIDDEN, component: ForbiddenComponent }
         ]

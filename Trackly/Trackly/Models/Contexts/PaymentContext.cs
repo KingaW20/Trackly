@@ -11,6 +11,7 @@ namespace Trackly.Models.Contexts
         public DbSet<PaymentCategory> PaymentCategories { get; set; }
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<UserPaymentMethod> UserPaymentMethods { get; set; }
+        public DbSet<UserPaymentHistory> UserPaymentHistories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { PaginatableService } from '../shared/services/paginatable.service';
 import { CommonModule } from '@angular/common';
+import { PaginatableService } from '../../services/paginatable.service';
 
 @Component({
   selector: 'app-pagination',

@@ -16,6 +16,7 @@ namespace Trackly.Extensions
             services.AddScoped<PaymentCategoryRepository>();
             services.AddScoped<PaymentMethodRepository>();
             services.AddScoped<UserPaymentMethodRepository>();
+            services.AddScoped<UserPaymentHistoryRepository>();
             services.AddScoped<PaymentRepository>();
 
             services.AddScoped<ImageRepository>();
@@ -32,6 +33,7 @@ namespace Trackly.Extensions
             services.AddScoped<PaymentCategoryService>();
             services.AddScoped<PaymentMethodService>();
             services.AddScoped<UserPaymentMethodService>();
+            services.AddScoped<UserPaymentHistoryService>();
             services.AddScoped<PaymentService>();
 
             services.AddScoped<ImageService>();

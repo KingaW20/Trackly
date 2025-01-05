@@ -3,10 +3,17 @@ import { Injectable } from '@angular/core';
 import { NgForm } from "@angular/forms";
 
 import { environment } from '../../../../environments/environment';
-import { Paths } from '../../constants';
+import { Paths, Values } from '../../constants';
 import { Payment } from '../../models/payments/payment.model';
 import { Transfer } from '../../models/transfer.model';
 import { PaginatableService } from "../paginatable.service";
+import { UserPaymentMethod } from "../../models/payments/user-payment-method.model";
+import { ChangeDateFormatToDate, ChangeDateFormatToString } from "../../utils/date-format";
+import { PaymentCategoryService } from "./payment-category.service";
+import { ToastrService } from "ngx-toastr";
+import { UserPaymentMethodService } from "./user-payment-method.service";
+import { UserPaymentHistoryService } from "./user-payment-history.service";
+import { Observable, Subject } from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -25,11 +32,18 @@ export class PaymentService extends PaginatableService {
   transferFormData : Transfer = new Transfer()
   transferFormShown : boolean = false
 
-  constructor(private http: HttpClient) {
+  constructor(
+    public categoryService: PaymentCategoryService,
+    public userPaymentMethodService: UserPaymentMethodService,
+    public userPaymentHistoryService: UserPaymentHistoryService,
+    private http: HttpClient,
+    private toastr: ToastrService
+  ) {
     super();
   }
 
-  refreshList(){
+  refreshList() : Observable<boolean> {   
+    const subject = new Subject<boolean>();
     // const params = new HttpParams()
     //   .set('page', this.currentPage)
     //   .set('take', this.pageItemNumber)
@@ -38,9 +52,32 @@ export class PaymentService extends PaginatableService {
       next: res => {
         this.allPayments = res as Payment[];
         this.changePage(1)
+        subject.next(true);
+        subject.complete();
       },
-      error: err => { console.log(err) }
+      error: err => { 
+        console.log(err)
+        subject.next(false);
+        subject.complete();
+      }
     })
+
+    return subject.asObservable();
+  }
+
+  getPaymentById(id: number) : Payment | null {
+    return this.allPayments.find(p => p.id == id) ?? null;
+  }
+
+  static getPaymentsByDateRangeAndPaymentMethod(list: Payment[], startDate: Date | null, endDate: Date | null, userPaymentMethodId: number) : Payment[] {  
+    if (startDate != null && endDate != null) {
+      return list.filter(p => 
+        p.userPaymentMethodId == userPaymentMethodId &&
+        p.date != "" && ChangeDateFormatToDate(p.date)! >= startDate! && ChangeDateFormatToDate(p.date)! < endDate!
+      );
+    }
+  
+    return [];
   }
 
   updateAllPayments(payments: Payment[]) {    
@@ -53,12 +90,38 @@ export class PaymentService extends PaginatableService {
     this.currentPayments = this.paginator.getListPart(this.allPayments)
   }
 
-  postPayment() {
-    return this.http.post(this.url, this.paymentFormData)
+  postPayment(payment: Payment) {
+    const p = payment;
+    this.http.post(this.url, payment).subscribe({
+      next: res => {
+        this.updateAllPayments(res as Payment[])    // list update
+        this.toastr.success('Dodano pomyślnie', 'Płatność');
+        this.userPaymentMethodService.refreshList();
+        this.userPaymentHistoryService.includePayment(p.date, p.userPaymentMethodId, p.sum, p.isOutcome);
+      },
+      error: err => { console.log(err) }
+    })
   }
 
-  putPayment() {
-    return this.http.put(this.url + "/" + this.paymentFormData.id, this.paymentFormData)
+  putPayment(payment: Payment) {
+    return this.http.put(this.url + "/" + payment.id, payment)
+  }
+
+  addRepairPayment(upmBefore: UserPaymentMethod, upmAfter: UserPaymentMethod) {
+    var cat = this.categoryService.getCategoryByName(Values.INCORRECTNESS);
+
+    var payment = new Payment({
+      categoryId: cat?.id,
+      userPaymentMethodId: upmAfter.id,
+      description: "Aktualizacja stanu konta",
+      sum: Math.abs(Number(upmAfter.sum) - Number(upmBefore.sum)),
+      date: ChangeDateFormatToString(new Date()),
+      isOutcome: Number(upmAfter.sum) < Number(upmBefore.sum),
+      paymentCategoryName: cat?.name,
+      paymentMethodName: upmAfter.paymentMethodName
+    })
+
+    this.postPayment(payment);
   }
 
   deletePayment(id: number) {

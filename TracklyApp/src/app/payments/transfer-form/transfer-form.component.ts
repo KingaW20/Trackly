@@ -53,12 +53,12 @@ export class TransferFormComponent {
 
   onMethodFromChange(): void {
     this.service.transferFormData.from = 
-      this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.fromId);
+      this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.fromId)?.paymentMethodName ?? '';
   }
 
   onMethodToChange(): void {
     this.service.transferFormData.to = 
-      this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.toId);
+      this.userPaymentMethodService.getUserPaymentMethodById(this.service.transferFormData.toId)?.paymentMethodName ?? '';
   }
 
   onDateChange(event: Date | null): void {
@@ -121,16 +121,7 @@ export class TransferFormComponent {
   }
 
   postPayment(p: Payment){
-    this.service.paymentFormData = Object.assign({}, p)
-    this.service.postPayment().subscribe({
-      next: res => {
-        this.service.updateAllPayments(res as Payment[])    // list update
-        // this.service.resetForm(form)
-        this.toastr.success('Dodano pomyślnie płatność do ' + p.paymentCategoryName, 'Płatność');
-        this.userPaymentMethodService.refreshList();
-      },
-      error: err => { console.log(err) }
-    })
+    this.service.postPayment(Object.assign({}, p));
   }
 
   createPaymentsFromTransfer(): Payment[] {

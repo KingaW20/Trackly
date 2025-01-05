@@ -58,7 +58,7 @@ export class RegistrationComponent implements OnInit {
   //To manage the access
   ngOnInit(): void {
     if (this.authService.isLoggedId())
-      this.router.navigateByUrl('/dashboard');
+      this.router.navigateByUrl(Paths.DASHBOARD);
   }
 
   onSubmit(){
@@ -70,6 +70,7 @@ export class RegistrationComponent implements OnInit {
             this.form.reset();
             this.isSubmitted = false;
             this.toastr.success('Utworzono nowego użytkownika', "Rejestracja się powiodła")
+            this.router.navigateByUrl(Paths.SIGN_IN);
           }
         },
         error: err => {

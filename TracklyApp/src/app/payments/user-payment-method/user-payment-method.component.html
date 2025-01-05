@@ -27,6 +27,18 @@
                 </div>
             </div>
 
+            <div class="mb-3 col-6">
+                <label>Data</label>
+                <mat-form-field class="col-12" appearance="fill">
+                    <mat-label>DD.MM.RRRR</mat-label>
+                    <input class="form-control" matInput [matDatepicker]="datePicker"
+                        #date="ngModel" name="date" [(ngModel)]="upmService.choosedDate"
+                        required>
+                    <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+                    <mat-datepicker #datePicker></mat-datepicker>
+                </mat-form-field>
+            </div>
+
             <div class="row mb-3">
                 <mat-form-field>
                     <mat-label>Stan konta</mat-label>

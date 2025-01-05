@@ -70,8 +70,14 @@
         </div>
 
         <div class="col-3 offset-1">
+            <button class="btn btn-lg btn-success mb-3 w-100" (click)="showUserPaymentHistory()">
+                Podsumowanie
+            </button>
+            <button class="btn btn-lg btn-success mb-3 w-100" (click)="onAddNewUserPaymentMethod()">
+                Dodaj konto
+            </button>
+
             <app-user-payment-accounts></app-user-payment-accounts>
         </div>
     </div>
 </div>
-

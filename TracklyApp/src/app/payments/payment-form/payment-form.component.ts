@@ -8,7 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ToastrService } from 'ngx-toastr';
 
-import { ChangeDateFormatToString } from '../../shared/utils/date-format';
+import { ChangeDateFormatToString, GetFirstDayOfMonth, GetFirstDayOfNextMonth } from '../../shared/utils/date-format';
 import { Payment } from '../../shared/models/payments/payment.model';
 import { PaymentCategoryService } from '../../shared/services/payments/payment-category.service';
 import { PaymentService } from '../../shared/services/payments/payment.service';
@@ -16,6 +16,7 @@ import { UserPaymentMethod } from '../../shared/models/payments/user-payment-met
 import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-method.component';
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 import { Values } from '../../shared/constants';
+import { UserPaymentHistoryService } from '../../shared/services/payments/user-payment-history.service';
 
 
 @Component({
@@ -43,6 +44,7 @@ export class PaymentFormComponent {
     public service : PaymentService, 
     public categoryService: PaymentCategoryService, 
     public userPaymentMethodService: UserPaymentMethodService, 
+    public userPaymentHistoryService: UserPaymentHistoryService,
     private toastr: ToastrService,
     private dialog: MatDialog,
     private cdr: ChangeDetectorRef
@@ -51,6 +53,7 @@ export class PaymentFormComponent {
   ngOnInit(): void {
     this.categoryService.refreshList()
     this.userPaymentMethodService.refreshList();
+    this.userPaymentHistoryService.refreshList();
     this.cdr.detectChanges();
   }
 
@@ -61,7 +64,7 @@ export class PaymentFormComponent {
 
   onMethodChange(): void {
     this.service.paymentFormData.paymentMethodName = 
-      this.userPaymentMethodService.getUserPaymentMethodById(this.service.paymentFormData.userPaymentMethodId);
+      this.userPaymentMethodService.getUserPaymentMethodById(this.service.paymentFormData.userPaymentMethodId)?.paymentMethodName ?? '';
   }
 
   onDateChange(event: Date | null): void {
@@ -97,23 +100,24 @@ export class PaymentFormComponent {
   }
 
   insertRecord(form: NgForm) {
-    this.service.postPayment().subscribe({
-      next: res => {
-        this.service.updateAllPayments(res as Payment[])    // list update
-        this.service.resetForm(form)
-        this.toastr.success('Dodano pomyślnie', 'Płatność');
-        this.userPaymentMethodService.refreshList();
-      },
-      error: err => { console.log(err) }
-    })
+    const payment = Object.assign({}, this.service.paymentFormData);
+    this.service.postPayment(payment);
+    this.service.resetForm(form);
   }
   
   updateRecord(form: NgForm) {
-    this.service.putPayment().subscribe({
+    const paymentAfter = Object.assign({}, this.service.paymentFormData);
+    const paymentBefore = this.service.getPaymentById(paymentAfter.id);
+
+    this.service.putPayment(this.service.paymentFormData).subscribe({
       next: res => {
         this.service.updateAllPayments(res as Payment[])
         this.service.resetForm(form)
         this.toastr.info('Zmodyfikowano pomyślnie', 'Płatność');
+        this.userPaymentHistoryService.includePayment(
+          paymentBefore?.date ?? "", paymentBefore?.userPaymentMethodId ?? null, paymentBefore?.sum ?? null, !(paymentBefore?.isOutcome ?? true));
+        this.userPaymentHistoryService.includePayment(
+          paymentAfter?.date ?? "", paymentAfter?.userPaymentMethodId ?? null, paymentAfter?.sum ?? null, paymentAfter?.isOutcome ?? true);
         this.userPaymentMethodService.refreshList();
       },
       error: err => { console.log(err) }
@@ -124,11 +128,19 @@ export class PaymentFormComponent {
     this.dialogRef = this.dialog.open(UserPaymentMethodComponent);
 
     this.dialogRef.afterClosed().subscribe( () => {
-      var result = this.userPaymentMethodService.choosedUpm
+      const result = this.userPaymentMethodService.choosedUpm
+      const choosedDate = this.userPaymentMethodService.choosedDate;
       if (result.paymentMethodName != null) {
         this.userPaymentMethodService.postUserPaymentMethod(result).subscribe({
           next: res => {
             this.userPaymentMethodService.userPaymentMethods = res as UserPaymentMethod[]    // list update
+
+            const date = GetFirstDayOfMonth(choosedDate);
+            this.userPaymentHistoryService.postUserPaymentHistory(result, date, true);
+            
+            const date2 = GetFirstDayOfNextMonth(choosedDate);
+            this.userPaymentHistoryService.postUserPaymentHistory(result, date2, false);
+
             this.toastr.success('Dodano nowe konto płatnościowe: ' + result.paymentMethodName, 'Metoda płatności');
           },
           error: err => { 
@@ -140,6 +152,7 @@ export class PaymentFormComponent {
         })
       }
       this.userPaymentMethodService.choosedUpm = new UserPaymentMethod()
+      this.userPaymentMethodService.choosedDate = null;
     });
   }
 

@@ -42,6 +42,24 @@
             : base(message) { }
     }
 
+    public class UserPaymentHistoryExistException : Exception
+    {
+        public UserPaymentHistoryExistException(string message = "Taka informacja o koncie płatnościowym już istnieje.")
+            : base(message) { }
+    }
+
+    public class UserPaymentHistoryNotExistException : Exception
+    {
+        public UserPaymentHistoryNotExistException(string message = "Taka informacja o koncie płatnościowym nie istnieje.")
+            : base(message) { }
+    }
+
+    public class UserPaymentHistoryNotAccessedException : Exception
+    {
+        public UserPaymentHistoryNotAccessedException(string message = "Brak dostępu do informacji o tym koncie płatnościowym.")
+            : base(message) { }
+    }
+
     public class PaymentNotAccessedException : Exception
     {
         public PaymentNotAccessedException(string message = "Ta płatność nie należy do aktualnego użytkownika.")
