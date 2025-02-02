@@ -7,9 +7,8 @@
         <button class="btn btn-lg btn-success" (click)="showProgramForm()">Dodaj obejrzany Film/Serial</button>
     </div>
     
-    <div class="mb-3">
-        <button class="btn btn-lg btn-success">Miesiąc lub Rok</button>
-    </div>
+    <!-- TODO: Mixin -->
+    <!-- <app-month-year *ngIf="ready" [service]="upService" [list]="upService.allUserPrograms"></app-month-year> -->
     
     <app-pagination [service]="upService"></app-pagination>
 

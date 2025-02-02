@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 
-import { ChangeDateFormatToDate, GetFirstDayOfMonth, GetFirstDayOfNextMonth } from '../shared/utils/date-format';
+import { ChangeDateFormatToDate, ChangeDateFormatToString, GetFirstDayOfMonth, GetFirstDayOfNextMonth } from '../shared/utils/date-format';
 import { Payment } from '../shared/models/payments/payment.model';
 import { PaymentFormComponent } from './payment-form/payment-form.component';
 import { PaymentService } from '../shared/services/payments/payment.service';
@@ -69,7 +69,7 @@ export class PaymentsComponent implements OnInit {
             p?.date ?? "", p?.userPaymentMethodId ?? null, p?.sum ?? null, !(p?.isOutcome ?? true));
           this.userPaymentMethodService.refreshList();
         },
-        error: err => { console.log(err) }
+        error: err => { console.error(err) }
       })
     }
   }
@@ -86,10 +86,13 @@ export class PaymentsComponent implements OnInit {
           next: res => {
             this.userPaymentMethodService.userPaymentMethods = res as UserPaymentMethod[]    // list update
 
-            const date = GetFirstDayOfMonth(choosedDate);
-            this.userPaymentHistoryService.postUserPaymentHistory(result, date, true);
+            this.userPaymentHistoryService.postUserPaymentHistory(result, ChangeDateFormatToString(choosedDate), true);
             
+            const date = GetFirstDayOfMonth(choosedDate);
+            if (date != ChangeDateFormatToString(choosedDate))
+            this.userPaymentHistoryService.postUserPaymentHistory(result, date, false);
             const date2 = GetFirstDayOfNextMonth(choosedDate);
+            if (date2 != ChangeDateFormatToString(choosedDate))
             this.userPaymentHistoryService.postUserPaymentHistory(result, date2, false);
 
             this.toastr.success('Dodano nowe konto płatnościowe: ' + result.paymentMethodName, 'Metoda płatności');
@@ -98,7 +101,7 @@ export class PaymentsComponent implements OnInit {
             if (err.status == 400)
               this.toastr.error(err.error.message, "Nie dodano nowego konta płatnościowego")
             else
-              console.log('Error during adding new user payment method: ', err);
+              console.error('Error during adding new user payment method: ', err);
           }
         })
       }

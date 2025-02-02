@@ -48,5 +48,6 @@ export const Values = {
     MAX_IMAGE_HEIGHT: 200,
     MANAGE_PAYMENT_CATEGORIES: 'managePaymentCategories',
     MANAGE_PAYMENT_METHODS: 'managePaymentMethods',
-    ALL_YEAR: 'Cały rok'
+    ALL_YEAR: 'Cały rok',
+    ALL_ACCOUNTS: 'Wszystkie konta'
 }

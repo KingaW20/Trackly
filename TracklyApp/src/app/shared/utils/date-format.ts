@@ -49,6 +49,14 @@ export function CheckIfOneMonthDifference(date1 : Date, date2 : Date) : boolean 
   return false;
 }
 
+export function CheckIfDateBefore(dateStr1: string, dateStr2: string, orEqual: boolean = false) : boolean {
+  const date1 = ChangeDateFormatToDate(dateStr1);
+  const date2 = ChangeDateFormatToDate(dateStr2);
+
+  if (date1 && date2) return orEqual ? date1 <= date2 : date1 < date2;
+  else return false;
+}
+
 export function GetCurrentMonthYearString() {
   const currentDate = new Date();
   const month = (currentDate.getMonth() + 1).toString().padStart(2, '0');
@@ -71,6 +79,18 @@ export function GetFirstDayOfMonth(date: Date | null) : string {
     const nextMonthDate = new Date(date);
     nextMonthDate.setDate(1);
     return ChangeDateFormatToString(nextMonthDate);
+}
+
+export function GetFirstDaysOfMonthsBetween(date1: Date, date2: Date, withLast: boolean = true) {
+  const result: Date[] = [];
+  let current = new Date(date1.getFullYear(), date1.getMonth(), 1);
+
+  while (withLast ? current <= date2 : current < date2) {
+    result.push(new Date(current));
+    current.setMonth(current.getMonth() + 1);
+  }
+
+  return result;
 }
 
 export const MONTH_YEAR_DATE_FORMAT = {

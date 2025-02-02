@@ -20,6 +20,9 @@ namespace Trackly.Services.Payments
         public async Task<IEnumerable<UserPaymentHistory>> GetUserPaymentHistories(string userId)
         {
             var userPaymentMethodIds = await GetUserPaymentMethodIds(userId);
+            if (userPaymentMethodIds == null || userPaymentMethodIds.Count() == 0)
+                return new List<UserPaymentHistory>();
+
             var userPaymentHistories = await _uphRepository.GetUserPaymentHistories(userPaymentMethodIds: userPaymentMethodIds);
             foreach (var uph in userPaymentHistories)
                 uph.UserPaymentMethod = await GetUserPaymentMethod(id: uph.UserPaymentMethodId, userId: userId);

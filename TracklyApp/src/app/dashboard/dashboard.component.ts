@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe({
       next: (res: any) => this.login = res.login,
-      error: (err: any) => console.log('Error while retrieving user profile:\n', err)
+      error: (err: any) => console.error('Error while retrieving user profile:\n', err)
     })
   }
 }

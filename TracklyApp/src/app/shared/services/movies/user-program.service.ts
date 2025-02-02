@@ -49,13 +49,13 @@ export class UserProgramService extends PaginatableService {
           this.updateAllUserPrograms(res as UserProgram[])
         }
       },
-      error: err => { console.log('Error during geting UserPrograms', err) }
+      error: err => { console.error('Error during geting UserPrograms', err) }
     })
   }
 
   updateAllUserPrograms(userPrograms: UserProgram[]) {
     this.allUserPrograms = userPrograms
-    console.log(this.allUserPrograms)
+    // console.log(this.allUserPrograms)
     this.changePage(this.paginator.currentPage)
     
     this.movieTitles = []
@@ -139,7 +139,7 @@ export class UserProgramService extends PaginatableService {
         );
       },
       error: err => { 
-        console.log('UserProgram - add or update error', err);
+        // console.error('UserProgram - add or update error', err);
         this.toastr.error(
           up.id == 0 ? 'Nie dodano' : 'Nie zmodyfikowano',
           up.isMovie ? 'Obejrzany film' : 'Obejrzany serial'

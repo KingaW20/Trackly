@@ -21,7 +21,7 @@ export class UserDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.userService.getUserProfile().subscribe({
       next: (res: any) => this.user = res as User,
-      error: (err: any) => console.log('Error while retrieving user profile:\n', err)
+      error: (err: any) => console.error('Error while retrieving user profile:\n', err)
     })
   }
 }

@@ -86,13 +86,13 @@ export class RegistrationComponent implements OnInit {
                   break;  
                 default:
                   this.toastr.error('Skontaktuj się z deweloperem.', "Rejestracja się nie powiodła")
-                  console.log(x);
+                  console.error(x);
                   break;
               }
             })
           }
           else {
-            console.log('error: ', err);
+            console.error('error: ', err);
           }
         }
       });

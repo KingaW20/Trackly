@@ -27,7 +27,7 @@ export class TvSerieEpisodeService {
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => { this.tvSerieEpisodes = res as TvSerieEpisode[]; },
-      error: err => { console.log('Error during geting TvSerieEpisodes', err) }
+      error: err => { console.error('Error during geting TvSerieEpisodes', err) }
     })
   }
 
@@ -114,8 +114,8 @@ export class TvSerieEpisodeService {
       error: err => {
         subject.error(err);
         subject.complete();
-        if (tvSerie.id == 0) console.log('Tv serie episode not added because of the error during tv serie adding')
-        else console.log('Tv serie episode not added because of the error during tv serie updating') 
+        if (tvSerie.id == 0) console.error('Tv serie episode not added because of the error during tv serie adding')
+        else console.error('Tv serie episode not added because of the error during tv serie updating') 
       }
     });
   

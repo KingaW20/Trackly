@@ -27,7 +27,8 @@ export class MonthYearComponent {
     this.choosedYear = currentDate.getFullYear().toString();
     this.choosedMonth = Values.ALL_YEAR;
     this.yearMonths = this.service.getYearMonths();  
-    console.log("YearMonths", this.yearMonths)  
+    // console.log("YearMonths", this.yearMonths)  
+    this.updateView();
   }
 
   getYears() {

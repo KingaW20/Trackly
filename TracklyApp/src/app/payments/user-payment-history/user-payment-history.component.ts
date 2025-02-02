@@ -6,18 +6,24 @@ import { MonthYearComponent } from '../../shared/components/month-year/month-yea
 import { UserPaymentHistoryService } from '../../shared/services/payments/user-payment-history.service';
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 import { PaymentService } from '../../shared/services/payments/payment.service';
+import { AccountHistoryComponent } from '../account-history/account-history.component';
+import { Values } from '../../shared/constants';
 
 
 @Component({
   selector: 'app-user-payment-history',
   standalone: true,
-  imports: [ CommonModule, MonthYearComponent ],
+  imports: [ 
+    CommonModule, MonthYearComponent, AccountHistoryComponent
+  ],
   templateUrl: './user-payment-history.component.html',
   styles: ``
 })
 export class UserPaymentHistoryComponent {
 
   ready = false;
+  choosedAccountName = "";
+  Values = Values;
 
   constructor(
     public uphService: UserPaymentHistoryService,
@@ -45,5 +51,12 @@ export class UserPaymentHistoryComponent {
         }, 500);
       }
     });
+  }
+
+  chooseAccount(accountName: string) {
+    if (this.choosedAccountName == accountName)
+      this.choosedAccountName = "";
+    else
+      this.choosedAccountName = accountName;
   }
 }

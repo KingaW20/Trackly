@@ -33,6 +33,7 @@ export class UserPaymentAccountsComponent {
 
   ngOnInit(): void {
     this.upmService.refreshList();
+    this.userPaymentHistoryService.refreshList();
   }
 
   onDelete(upm: UserPaymentMethod) : void {
@@ -44,7 +45,7 @@ export class UserPaymentAccountsComponent {
           this.toastr.info('Usunięto pomyślnie', 'Konto płatnościowe');
           this.paymentService.refreshList();
         },
-        error: err => { console.log(err) }
+        error: err => { console.error(err) }
       })
     }
   }
@@ -71,7 +72,7 @@ export class UserPaymentAccountsComponent {
       //       if (err.status == 400)
       //         this.toastr.error(err.error.message, "Nie dodano nowego konta płatnościowego")
       //       else
-      //         console.log('Error during adding new user payment method: ', err);
+      //         console.error('Error during adding new user payment method: ', err);
       //     }
       //   })
       // }

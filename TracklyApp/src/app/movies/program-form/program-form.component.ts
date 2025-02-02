@@ -62,7 +62,7 @@ export class ProgramFormComponent {
       this.upService.userProgramFormData.date = ChangeDateFormatToString(event)
     else 
       this.upService.userProgramFormData.date = '';
-    console.log('Date changed', this.upService.userProgramFormData.date)
+    // console.log('Date changed', this.upService.userProgramFormData.date)
   }
 
   clearForm(): void {
@@ -74,7 +74,7 @@ export class ProgramFormComponent {
     this.upService.userProgramFormData.program.image = new MyImage();
     this.upService.userProgramFormData.program.image!.uploadFile(event)
       .then((url: string) => {
-        console.log("Uploaded image", this.upService.userProgramFormData.program.image);
+        // console.log("Uploaded image", this.upService.userProgramFormData.program.image);
         this.imageUrl = url || "/default_upload2.png";
         this.selectedFileName = this.upService.userProgramFormData.program.image!.name;
       })
@@ -155,12 +155,12 @@ export class ProgramFormComponent {
               if (err.status == 400)
                 this.toastr.error(err.error.value.error, userProgram.isMovie ? "Film" : "Serial")
               else
-                console.log('Error during adding/updating ' + userProgram.isMovie ? "movie" : "tv serie episode" + ':\n', err)
+                console.error('Error during adding/updating ' + userProgram.isMovie ? "movie" : "tv serie episode" + ':\n', err)
             }
           });
         },
         error: err => {
-          console.log('Error during adding image:\n', err)
+          console.error('Error during adding image:\n', err)
         }
       });
       

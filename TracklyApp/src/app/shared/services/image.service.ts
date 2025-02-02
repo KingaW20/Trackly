@@ -23,7 +23,7 @@ export class ImageService {
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => { this.images = res as MyImage[]; },
-      error: err => { console.log(err) }
+      error: err => { console.error(err) }
     })
   }
   
@@ -59,7 +59,7 @@ export class ImageService {
     {
       const img = this.findImage(image.name, image.fileExtension, image.bytes);
       if (img != null) {
-        console.log("Obraz istnieje", img.id);
+        // console.log("Obraz istnieje", img.id);
         return of(img.id);            // works like subject.next(img.id); but it doesn't work in this case
       } else {
         this.postImage(image).subscribe({
@@ -75,10 +75,10 @@ export class ImageService {
             if (err.status == 400)
             {
               this.toastr.error(err.error.message, "Nie dodano nowego obrazu")
-              console.log('Error during adding new image:\n', err)
+              console.error('Error during adding new image:\n', err)
             }
             else
-              console.log('Error during adding new image:\n', err)
+              console.error('Error during adding new image:\n', err)
             subject.complete();
           }
         })

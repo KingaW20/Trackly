@@ -26,7 +26,7 @@ export class MovieService {
       next: res => { 
         this.movies = res as Movie[]; 
       },
-      error: err => { console.log('Error during geting Movies', err) }
+      error: err => { console.error('Error during geting Movies', err) }
     })
   }
 

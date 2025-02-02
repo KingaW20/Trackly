@@ -56,7 +56,7 @@ export class PaymentService extends PaginatableService {
         subject.complete();
       },
       error: err => { 
-        console.log(err)
+        console.error(err)
         subject.next(false);
         subject.complete();
       }
@@ -83,6 +83,7 @@ export class PaymentService extends PaginatableService {
   updateAllPayments(payments: Payment[]) {    
     this.allPayments = payments
     this.changePage(this.paginator.currentPage)
+    console.log("Payment service - allPayments", this.allPayments);
   }
 
   override changePage(newPage: number, listLength?: number) {
@@ -96,10 +97,12 @@ export class PaymentService extends PaginatableService {
       next: res => {
         this.updateAllPayments(res as Payment[])    // list update
         this.toastr.success('Dodano pomyślnie', 'Płatność');
+        console.log("postPayment - refreshList upm")
         this.userPaymentMethodService.refreshList();
+        console.log("postPayment - uph - includePayment")
         this.userPaymentHistoryService.includePayment(p.date, p.userPaymentMethodId, p.sum, p.isOutcome);
       },
-      error: err => { console.log(err) }
+      error: err => { console.error(err) }
     })
   }
 

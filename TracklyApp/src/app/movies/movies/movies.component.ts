@@ -9,11 +9,15 @@ import { UserProgramService } from '../../shared/services/movies/user-program.se
 import { UserProgram } from '../../shared/models/movies/user-program.model';
 import { Values } from '../../shared/constants';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
+import { MonthYearComponent } from '../../shared/components/month-year/month-year.component';
 
 @Component({
   selector: 'app-movies',
   standalone: true,
-  imports: [ CommonModule, FormsModule, PaginationComponent, ProgramFormComponent ],
+  imports: [ 
+    CommonModule, FormsModule,
+    PaginationComponent, ProgramFormComponent, MonthYearComponent
+  ],
   templateUrl: './movies.component.html',
   styles: ``
 })
@@ -22,6 +26,7 @@ export class MoviesComponent implements OnInit {
   @ViewChild(ProgramFormComponent) programForm!: ProgramFormComponent;
   isEditing: boolean = false;
   Values = Values
+  ready = false;
   
   constructor(
     public upService : UserProgramService,
@@ -65,7 +70,7 @@ export class MoviesComponent implements OnInit {
           this.upService.updateAllUserPrograms(res as UserProgram[])    // list update
           this.toastr.info('Usunięto pomyślnie', 'Obejrzany program');
         },
-        error: err => { console.log(err) }
+        error: err => { console.error(err) }
       })
     }
   }

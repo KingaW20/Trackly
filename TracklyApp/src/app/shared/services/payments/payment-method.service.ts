@@ -25,7 +25,7 @@ export class PaymentMethodService {
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => { this.paymentMethods = res as PaymentMethod[]; },
-      error: err => { console.log(err) }
+      error: err => { console.error(err) }
     })
   }
 
@@ -60,7 +60,7 @@ export class PaymentMethodService {
               if (err.status == 400)
                 this.toastr.error(err.error.message, "Nie dodano nowej metody płatności")
               else
-                console.log('Error during adding new payment method:\n', err)}
+                console.error('Error during adding new payment method:\n', err)}
           })
         }
       });
@@ -84,7 +84,7 @@ export class PaymentMethodService {
               if (err.status == 400)
                 this.toastr.error(err.error.message, "Nie zmodyfikowano metody płatności")
               else
-                console.log('Error during putting payment method:\n', err)}
+                console.error('Error during putting payment method:\n', err)}
           })
         }
     })
@@ -105,7 +105,7 @@ export class PaymentMethodService {
           if (err.status == 400)
             this.toastr.error(err.error.message, "Nie usunięto metody płatności")
           else
-            console.log('Error during deleting payment method:\n', err)}
+            console.error('Error during deleting payment method:\n', err)}
       })
     }
   }

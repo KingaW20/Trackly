@@ -5,6 +5,7 @@ import { environment } from '../../../../environments/environment';
 import { Paths } from '../../constants';
 import { UserPaymentMethod } from '../../models/payments/user-payment-method.model';
 import { Observable, of, Subject } from 'rxjs';
+// import { UserPaymentHistoryService } from './user-payment-history.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,7 +17,12 @@ export class UserPaymentMethodService {
   choosedUpm : UserPaymentMethod = new UserPaymentMethod()
   choosedDate : Date | null = null
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    // public userPaymentHistoryService : UserPaymentHistoryService
+  ) { 
+    // userPaymentHistoryService.refreshList();
+  }
 
   refreshList() : Observable<boolean> {   
     const subject = new Subject<boolean>();
@@ -24,12 +30,13 @@ export class UserPaymentMethodService {
     this.http.get(this.url).subscribe({
       next: res => { 
         this.userPaymentMethods = res as UserPaymentMethod[]; 
-        console.log("user-payment-method-service", this.userPaymentMethods);
+        // this.userPaymentMethods.forEach(upm => upm.sum = this.userPaymentHistoryService.getSum(upm.id));
+        // console.log("user-payment-method-service", this.userPaymentMethods);
         subject.next(true);
         subject.complete();
       },
       error: err => { 
-        console.log('Error during geting UserPaymentMethods', err);
+        console.error('Error during geting UserPaymentMethods', err);
         subject.next(false);
         subject.complete();
       }

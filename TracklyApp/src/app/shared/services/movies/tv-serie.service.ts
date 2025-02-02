@@ -23,7 +23,7 @@ export class TvSerieService {
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => { this.tvSeries = res as TvSerie[]; },
-      error: err => { console.log('Error during geting TvSeries', err) }
+      error: err => { console.error('Error during geting TvSeries', err) }
     })
   }
 

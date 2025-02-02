@@ -1,15 +1,3 @@
-<!-- <div class="center-container">
-    <mat-form-field class="w-30">
-        <mat-label>Miesiąc i rok</mat-label>
-        <input matInput [matDatepicker]="dp" [formControl]="date">
-        <mat-datepicker-toggle matIconSuffix [for]="dp"></mat-datepicker-toggle>
-        <mat-datepicker #dp startView="multi-year"
-            (monthSelected)="setMonthAndYear($event, dp)"
-            panelClass="example-month-picker">
-        </mat-datepicker>
-    </mat-form-field>
-</div> -->
-
 <div class="row mb-1">
     <div class="col-2"> Rok: </div>
     <div class="col-10 center-container">
@@ -25,9 +13,9 @@
     <div class="col-10 center-container">
         <button class="m-1 btn btn-sm" *ngFor="let m of getMonths()" (click)="chooseMonth(m)"
             [ngClass]="{
-            'btn-primary': m === choosedMonth && yearMonths[choosedYear]?.includes(m),
-            'btn-outline-primary': m !== choosedMonth && yearMonths[choosedYear]?.includes(m),
-            'disabled': !yearMonths[choosedYear]?.includes(m)
+            'btn-primary': m === choosedMonth && yearMonths[choosedYear] != null && yearMonths[choosedYear].includes(m),
+            'btn-outline-primary': m !== choosedMonth && yearMonths[choosedYear] != null && yearMonths[choosedYear].includes(m),
+            'disabled': yearMonths[choosedYear] != null && !yearMonths[choosedYear].includes(m)
             }" >
             {{ m }}
         </button>

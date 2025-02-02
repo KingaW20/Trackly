@@ -25,7 +25,7 @@ export class PaymentCategoryService {
   refreshList() {
     this.http.get(this.url).subscribe({
       next: res => { this.paymentCategories = res as PaymentCategory[]; },
-      error: err => { console.log(err) }
+      error: err => { console.error(err) }
     })
   }
 
@@ -47,7 +47,7 @@ export class PaymentCategoryService {
           if (err.status == 400)
             this.toastr.error(err.error.message, "Nie dodano nowej kategorii")
           else
-            console.log('Error during adding new payment category:\n', err)}
+            console.error('Error during adding new payment category:\n', err)}
       })
       cat = this.paymentCategories.find( cat => cat.name == name );
     }
@@ -80,7 +80,7 @@ export class PaymentCategoryService {
               if (err.status == 400)
                 this.toastr.error(err.error.message, "Nie dodano nowej kategorii")
               else
-                console.log('Error during adding new payment category:\n', err)}
+                console.error('Error during adding new payment category:\n', err)}
           })
         }
       });
@@ -104,7 +104,7 @@ export class PaymentCategoryService {
             if (err.status == 400)
               this.toastr.error(err.error.message, "Nie zmodyfikowano kategorii")
             else
-              console.log('Error during putting payment category:\n', err)}
+              console.error('Error during putting payment category:\n', err)}
         })
       }
     })
@@ -125,7 +125,7 @@ export class PaymentCategoryService {
           if (err.status == 400)
             this.toastr.error(err.error.message, "Nie usunięto kategorii")
           else
-            console.log('Error during deleting payment category:\n', err)}
+            console.error('Error during deleting payment category:\n', err)}
       })
     }
   }
