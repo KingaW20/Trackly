@@ -1,63 +1,58 @@
-<form #form="ngForm" (submit)="onSubmit(form)" [class.submitted] = "formSubmitted" novalidate>
-    <div class="m-5 dialog-content">
-        <h1 mat-dialog-title>Nowe konto płatnościowe</h1>
-        <div mat-dialog-content>
-            <div class="row mb-3">
-                <label>Metoda płatności</label>
-                <div class="d-flex justify-content-between">
-                    <div class="col-10">
-                        <select class="form-control form-control-lg" 
-                                [(ngModel)]="upmService.choosedUpm.paymentMethodId"
-                                (ngModelChange)="onPaymentMethodChange()"
-                                #paymentMethodName="ngModel"
-                                name="paymentMethodName"
-                                required>
-                            <option value="null" disabled selected hidden>Nie wybrano</option>
-                            <option *ngFor="let met of paymentMethodService.paymentMethods; trackBy: trackById;" [value]="met.id">
-                                {{ met.name }}
-                            </option>
-                        </select>
-                    </div>
-                    <button mat-raised-button class="btn btn-success" 
-                            (click)="paymentMethodService.onAddNewMethod()" 
-                            title="Dodaj nową metodę płatności"
-                            type="button">
-                        <i class="fa-solid fa-plus"></i>
-                    </button>
-                </div>
-            </div>
+<app-mat-form-container title="Nowe konto płatnościowe" [formSubmitted]="formSubmitted" 
+    (cancel)="onNoClick()" (submit)="onSubmit($event)">
 
-            <div class="mb-3 col-6">
-                <label>Data</label>
-                <mat-form-field class="col-12" appearance="fill">
-                    <mat-label>DD.MM.RRRR</mat-label>
-                    <input class="form-control" matInput [matDatepicker]="datePicker"
-                        #date="ngModel" name="date" [(ngModel)]="upmService.choosedDate"
+    <!-- TODO: change it to make it easier -->
+    <div class="row mb-3">
+        <label>Metoda płatności</label>
+        <div class="d-flex justify-content-between">
+            <div class="col-10">
+                <select class="form-control form-control-lg" 
+                        [(ngModel)]="upmService.choosedUpm.paymentMethodId"
+                        (ngModelChange)="onPaymentMethodChange()"
+                        #paymentMethodName="ngModel"
+                        name="paymentMethodName"
                         required>
-                    <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
-                </mat-form-field>
+                    <option value="null" disabled selected hidden>Nie wybrano</option>
+                    <option *ngFor="let met of paymentMethodService.paymentMethods; trackBy: trackById;" [value]="met.id">
+                        {{ met.name }}
+                    </option>
+                </select>
             </div>
-
-            <div class="row mb-3">
-                <mat-form-field>
-                    <mat-label>Stan konta</mat-label>
-                    <input matInput [(ngModel)]="upmService.choosedUpm.sum" name="userPaymentMethodSum" 
-                        #upmSum="ngModel" pattern="^\d+(\.\d{1,2})?$" required>
-                    <mat-error>
-                        <ng-container *ngIf="upmSum.hasError('required')">
-                            Wprowadź kwotę znajdującą się na koncie.
-                        </ng-container>
-                        <ng-container *ngIf="upmSum.hasError('pattern')">
-                            Wartość musi być liczbą z maksymalnie 2 cyframi po kropce.
-                        </ng-container>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-        </div>
-        <div mat-dialog-actions class="dialog-actions">
-            <button class="btn" mat-button (click)="onNoClick()" type="button">Anuluj</button>
-            <button class="btn btn-success" mat-button type="submit">Dodaj</button>
+            <button mat-raised-button class="btn btn-success" 
+                    (click)="paymentMethodService.onAddNewMethod()" 
+                    title="Dodaj nową metodę płatności"
+                    type="button">
+                <i class="fa-solid fa-plus"></i>
+            </button>
         </div>
     </div>
-</form>
+
+    <div class="mb-3 col-6">
+        <label>Data</label>
+        <mat-form-field class="col-12" appearance="fill">
+            <mat-label>DD.MM.RRRR</mat-label>
+            <input class="form-control" matInput [matDatepicker]="datePicker"
+                #date="ngModel" name="date" [(ngModel)]="upmService.choosedDate"
+                required>
+            <mat-datepicker-toggle matIconSuffix [for]="datePicker"></mat-datepicker-toggle>
+            <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+    </div>
+
+    <div class="row mb-3">
+        <mat-form-field>
+            <mat-label>Stan konta</mat-label>
+            <input matInput [(ngModel)]="upmService.choosedUpm.sum" name="userPaymentMethodSum" 
+                #upmSum="ngModel" pattern="^\d+(\.\d{1,2})?$" required>
+            <mat-error>
+                <ng-container *ngIf="upmSum.hasError('required')">
+                    Wprowadź kwotę znajdującą się na koncie.
+                </ng-container>
+                <ng-container *ngIf="upmSum.hasError('pattern')">
+                    Wartość musi być liczbą z maksymalnie 2 cyframi po kropce.
+                </ng-container>
+            </mat-error>
+        </mat-form-field>
+    </div>
+
+</app-mat-form-container>

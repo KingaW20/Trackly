@@ -1,22 +1,18 @@
 <div class="container">
-    <div *ngIf="upService.programFormShow">
-        <app-program-form></app-program-form>
-    </div>
+    <app-program-form *ngIf="upService.programFormShow" />
     
-    <div class="mb-3" *ngIf="!upService.programFormShow">
-        <button class="btn btn-lg btn-success" (click)="showProgramForm()">Dodaj obejrzany Film/Serial</button>
-    </div>
+    <button class="big" *ngIf="!upService.programFormShow" (click)="showProgramForm()"> Dodaj obejrzany Film/Serial </button>
     
     <!-- TODO: Mixin -->
     <!-- <app-month-year *ngIf="ready" [service]="upService" [list]="upService.allUserPrograms"></app-month-year> -->
     
     <app-pagination [service]="upService"></app-pagination>
 
-    <ul class="list-group d-grid" style="grid-template-columns: repeat(4, 1fr); gap: 20px;">
-        <li class="list-group-item mb-2 border px-4 py-3 rounded-3"
+    <ul class="list-group">
+        <li class="list-group-item"
             *ngFor="let up of upService.currentUserPrograms">
     
-            <div class="d-flex justify-content-between align-items-center mb-2">
+            <div class="info-section">
                 <div>{{up.date}}</div>
                 <div class="text-secondary">
                     <i class="fa-solid fa-eye me-2" [style.cursor]="'pointer'" (click)="onEdit(up, true)" title="Obejrzyj ponownie"></i>
@@ -25,13 +21,19 @@
                 </div>
             </div>
     
-            <div class="text-center mb-2 d-flex justify-content-center align-items-center" [style.height.px]="Values.MAX_IMAGE_HEIGHT">
-                <img [src]="up.program.image?.source || '/empty_image.png'" alt="Movie Image"
-                    [style.height.px]="upService.getImageHeight(up.program.image)" [style.width.px]="Values.IMAGE_WIDTH">
+            <div class="movieImg" [style.height.px]="Values.MAX_IMAGE_HEIGHT">
+                <img [src]="up.program.image?.source || '/empty_image.png'" 
+                    alt="Movie Image"
+                    [style.height.px]="upService.getImageHeight(up.program.image)" 
+                    [style.width.px]="Values.IMAGE_WIDTH">
             </div>
     
-            <div class="text-center mb-2 fw-bold"> {{up.isMovie ? "" : getTvSerieText(up)}} {{up.program.title}} </div>
-            <div class="text-center"> Czas: {{up.program.time}} min </div>
+            <div class="text-center mb-2 fw-bold"> 
+                {{up.isMovie ? "" : getTvSerieText(up)}} {{up.program.title}}
+            </div>
+            <div class="text-center"> 
+                Czas: {{up.program.time}} min 
+            </div>
         </li>
     </ul>    
 </div>

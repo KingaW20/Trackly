@@ -8,16 +8,17 @@ import { UserPaymentMethodService } from '../../shared/services/payments/user-pa
 import { PaymentService } from '../../shared/services/payments/payment.service';
 import { AccountHistoryComponent } from '../account-history/account-history.component';
 import { Values } from '../../shared/constants';
+import { PaymentsTableComponent } from '../payments-table/payments-table.component';
 
 
 @Component({
   selector: 'app-user-payment-history',
   standalone: true,
   imports: [ 
-    CommonModule, MonthYearComponent, AccountHistoryComponent
+    CommonModule, MonthYearComponent, AccountHistoryComponent, PaymentsTableComponent
   ],
   templateUrl: './user-payment-history.component.html',
-  styles: ``
+  styleUrl: './user-payment-history.component.css'
 })
 export class UserPaymentHistoryComponent {
 

@@ -1,0 +1,11 @@
+<form #form="ngForm" (submit)="onSubmit(form)" [class.submitted]="formSubmitted" novalidate>
+    <div class="m-5 dialog-content">
+        <h1 mat-dialog-title> {{ title }} </h1>
+    
+        <div mat-dialog-content>
+            <ng-content />
+        </div>
+
+        <div mat-dialog-actions (cancel)="onCancel()"> </div>
+    </div>
+</form>

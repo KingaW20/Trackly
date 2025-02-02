@@ -17,13 +17,16 @@ import { UserPaymentHistoryService } from '../shared/services/payments/user-paym
 import { UserPaymentMethod } from '../shared/models/payments/user-payment-method.model';
 import { PaymentCategoryService } from '../shared/services/payments/payment-category.service';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
+import { PaymentsTableComponent } from './payments-table/payments-table.component';
+import { BigBtnComponent } from '../shared/components/controls/big-btn/big-btn.component';
 
 @Component({
   selector: 'app-payments',
   standalone: true,
   imports: [
-    CommonModule, PaginationComponent,
-    PaymentFormComponent, TransferFormComponent, UserPaymentAccountsComponent 
+    CommonModule, PaginationComponent, PaymentsTableComponent,
+    PaymentFormComponent, TransferFormComponent, UserPaymentAccountsComponent,
+    BigBtnComponent
   ],
   templateUrl: './payments.component.html',
   styles: []

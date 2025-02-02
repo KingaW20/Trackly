@@ -1,0 +1,35 @@
+<table class="w-100 table table-hover table-bordered border-primary align-middle">
+    <thead>
+        <tr>
+            <th scope="col"> Data </th>
+            <th scope="col"> Kategoria </th>
+            <th scope="col"> Opis </th>
+            <th scope="col"> Kwota </th>
+            <th scope="col" *ngIf="showDetails"> Konto </th>
+            <th scope="col" *ngIf="showDetails"> </th>
+        </tr>
+    </thead>
+
+    <tbody class="table-group-divider">
+        <tr *ngFor="let p of payments" [ngClass]="{'table-danger': p.isOutcome, 'table-success': !p.isOutcome}">
+            <td class="my-td" (click)="choosePayment(p)" [isOutcome]="p.isOutcome"> 
+                {{ p.date }} 
+            </td>
+            <td class="my-td" (click)="choosePayment(p)" [isOutcome]="p.isOutcome"> 
+                {{ p.paymentCategoryName }} 
+            </td>
+            <td class="my-td" (click)="choosePayment(p)" [isOutcome]="p.isOutcome"> 
+                {{ p.description }} 
+            </td>
+            <td class="my-td" (click)="choosePayment(p)" [isOutcome]="p.isOutcome"> 
+                {{p.isOutcome ? "-" : "+"}}{{p.sum}} 
+            </td>
+            <td class="my-td" (click)="choosePayment(p)" [isOutcome]="p.isOutcome" *ngIf="showDetails"> 
+                {{ p.paymentMethodName }} 
+            </td>
+            <td *ngIf="showDetails" class="text-secondary">
+                <i class="fa-solid fa-trash-can fa-lg mouse-hover" (click)="onDelete(p.id)"></i>
+            </td>
+        </tr>
+    </tbody>
+</table>

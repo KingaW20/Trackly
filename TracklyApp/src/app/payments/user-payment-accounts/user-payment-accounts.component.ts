@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ToastrService } from 'ngx-toastr';
@@ -7,7 +7,6 @@ import { ToastrService } from 'ngx-toastr';
 import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
 import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-method.component';
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
-import { GetFirstDayOfNextMonth } from '../../shared/utils/date-format';
 import { UserPaymentHistoryService } from '../../shared/services/payments/user-payment-history.service';
 import { PaymentService } from '../../shared/services/payments/payment.service';
 
@@ -16,10 +15,9 @@ import { PaymentService } from '../../shared/services/payments/payment.service';
   standalone: true,
   imports: [ CommonModule, FormsModule ],
   templateUrl: './user-payment-accounts.component.html',
-  styles: ``
+  styleUrl: './user-payment-accounts.component.css'
 })
 export class UserPaymentAccountsComponent {
-
   dialogRef : any = null
   isMouseHover : boolean = false
 

@@ -17,13 +17,14 @@ import { UserPaymentMethodComponent } from '../user-payment-method/user-payment-
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 import { Values } from '../../shared/constants';
 import { UserPaymentHistoryService } from '../../shared/services/payments/user-payment-history.service';
+import { BigBtnComponent } from '../../shared/components/controls/big-btn/big-btn.component';
 
 
 @Component({
   selector: 'app-payment-form',
   standalone: true,
   imports: [
-    FormsModule, CommonModule,
+    FormsModule, CommonModule, BigBtnComponent,
     MatFormFieldModule, MatInputModule, MatDatepickerModule
   ],
   templateUrl: './payment-form.component.html',

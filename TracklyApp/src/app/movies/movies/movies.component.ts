@@ -10,16 +10,17 @@ import { UserProgram } from '../../shared/models/movies/user-program.model';
 import { Values } from '../../shared/constants';
 import { PaginationComponent } from '../../shared/components/pagination/pagination.component';
 import { MonthYearComponent } from '../../shared/components/month-year/month-year.component';
+import { BigBtnComponent } from '../../shared/components/controls/big-btn/big-btn.component';
 
 @Component({
   selector: 'app-movies',
   standalone: true,
   imports: [ 
-    CommonModule, FormsModule,
+    CommonModule, FormsModule, BigBtnComponent,
     PaginationComponent, ProgramFormComponent, MonthYearComponent
   ],
   templateUrl: './movies.component.html',
-  styles: ``
+  styleUrl: './movies.component.css'
 })
 export class MoviesComponent implements OnInit {
 

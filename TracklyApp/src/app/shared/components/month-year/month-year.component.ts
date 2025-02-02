@@ -10,7 +10,7 @@ import { Values } from '../../constants';
   standalone: true,
   imports: [ CommonModule ],
   templateUrl: './month-year.component.html',
-  styles: ``
+  styleUrl: './month-year.component.css'
 })
 export class MonthYearComponent {
 

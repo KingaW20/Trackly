@@ -11,7 +11,7 @@ import { Paths } from '../../shared/constants';
   standalone: true,
   imports: [ RouterOutlet, RouterLink, HideIfClaimsNotMetDirective ],
   templateUrl: './main-layout.component.html',
-  styles: ``
+  styleUrl: './main-layout.component.css'
 })
 export class MainLayoutComponent {
 

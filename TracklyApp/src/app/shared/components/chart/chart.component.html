@@ -1,0 +1,11 @@
+<div class="d-flex align-items-center">
+    <div class="me-2">{{ title }}:</div>
+    <p class="mb-0" *ngIf="series.length == 0">BRAK</p>
+</div>
+
+<apx-chart *ngIf="series.length > 0" class="w-100"
+    [series]="series" 
+    [chart]="chartOptions.chart" 
+    [labels]="labels"
+    [responsive]="chartOptions.responsive"
+></apx-chart>

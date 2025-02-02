@@ -1,47 +1,22 @@
 <div class="d-flex mb-2">
     <div class="w-50 d-block">
         <h2>{{userAccountBalance.paymentMethodName}}</h2>
-        <div class="row fw-bold" [ngClass]="{ 'text-success': userAccountBalance.balance >= 0, 'text-danger': userAccountBalance.balance < 0 }">
-            <div class="col-8">Bilans</div>
-            <div class="col-2">{{ userAccountBalance.balance }}</div>
-        </div>
-        <div class="row">
-            <div class="col-8">Saldo początkowe</div>
-            <div class="col-2">{{ userAccountBalance.startSum }}</div>
-        </div>
-        <div class="row">
-            <div class="col-8">Saldo końcowe</div>
-            <div class="col-2">{{ userAccountBalance.endSum }}</div>
-        </div>
+        
+        <app-key-val class="row fw-bold" key="Bilans" [val]="userAccountBalance.balance"
+            [ngClass]="{ 'text-success': userAccountBalance.balance >= 0, 'text-danger': userAccountBalance.balance < 0 }" />
+        <app-key-val class="row" key="Saldo początkowe" [val]="userAccountBalance.startSum" />
+        <app-key-val class="row" key="Saldo końcowe" [val]="userAccountBalance.endSum" />
     </div>
 
     <div class="w-50 d-block" *ngIf="choosedAccountName == userAccountBalance.paymentMethodName">
-        <div class="d-block">
-            <div class="d-flex align-items-center">
-                <div class="me-2">Przychody:</div>
-                <p class="mb-0" *ngIf="getSeries(userAccountBalance.income).length == 0">BRAK</p>
-            </div>
-            
-            <apx-chart *ngIf="getSeries(userAccountBalance.income).length > 0"
-                [series]="getSeries(userAccountBalance.income)" 
-                [chart]="chartOptions.chart" 
-                [labels]="getLabels(userAccountBalance.income)"
-                [responsive]="chartOptions.responsive"
-            ></apx-chart>
-        </div>
+        <app-chart title="Przychody" 
+            [series]="getSeries(userAccountBalance.income)"
+            [labels]="getLabels(userAccountBalance.income)"
+        />
 
-        <div style="display: block;">
-            <div class="d-flex align-items-center">
-                <div class="me-2">Wydatki:</div>
-                <p class="mb-0" *ngIf="getSeries(userAccountBalance.outcome).length == 0">BRAK</p>
-            </div>
-
-            <apx-chart *ngIf="getSeries(userAccountBalance.outcome).length > 0" class="w-100"
-                [series]="getSeries(userAccountBalance.outcome)" 
-                [chart]="chartOptions.chart" 
-                [labels]="getLabels(userAccountBalance.outcome)"
-                [responsive]="chartOptions.responsive"
-            ></apx-chart>
-        </div>
+        <app-chart title="Wydatki" 
+            [series]="getSeries(userAccountBalance.outcome)"
+            [labels]="getLabels(userAccountBalance.outcome)"
+        />
     </div>
 </div>

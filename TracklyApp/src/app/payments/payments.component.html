@@ -1,83 +1,26 @@
 <div class="container">
     <div class="row">
         <div class="col-8" style="float: left;">
-                        
-            <div *ngIf="service.paymentFormShown">
-                <app-payment-form></app-payment-form>
+            <app-payment-form *ngIf="service.paymentFormShown"/>            
+            <app-transfer-form *ngIf="service.transferFormShown"/>
+
+            <div class="row justify-content-center" *ngIf="!service.paymentFormShown && !service.transferFormShown">
+                <button class="d-grid col-5 big me-2" (click)="showPaymentForm()"> Dodaj płatność </button>
+                <button class="d-grid col-5 big ms-2" (click)="showTransferForm()"> Dodaj przelew </button>
             </div>
             
-            <div *ngIf="service.transferFormShown">
-                <app-transfer-form></app-transfer-form>
-            </div>
+            <app-pagination [service]="service" />
 
-            <div class="row justify-content-center mb-3" *ngIf="!service.paymentFormShown && !service.transferFormShown">
-                <div class="d-grid col-5">
-                    <button class="btn btn-lg btn-success" (click)="showPaymentForm()">
-                        Dodaj płatność
-                    </button>
-                </div>
-                <div class="d-grid col-5">
-                    <button class="btn btn-lg btn-success" (click)="showTransferForm()">
-                        Dodaj przelew
-                    </button>
-                </div>
-            </div>
-            
-            <app-pagination [service]="service"></app-pagination>
-
-            <table class="table table-hover table-bordered border-primary align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col">Data</th>
-                        <th scope="col">Kategoria</th>
-                        <th scope="col">Opis</th>
-                        <th scope="col">Kwota</th>
-                        <th scope="col">Konto</th>
-                        <th scope="col"></th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr *ngFor="let p of service.currentPayments"
-                        [ngClass]="{'table-danger': p.isOutcome, 'table-success': !p.isOutcome}">
-                        <th scope="row" (click)="populateForm(p)" [style.cursor]="'pointer'" 
-                            [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.date}} 
-                        </th>
-                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.paymentCategoryName}} 
-                        </td>
-                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.description}} 
-                        </td>
-                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}">  
-                            {{p.isOutcome ? "-" : "+"}}{{p.sum}} 
-                        </td>
-                        <td (click)="populateForm(p)" [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.paymentMethodName}}
-                        </td>
-                        <td>
-                            <span class="text-secondary">
-                                <i class="fa-solid fa-trash-can fa-lg mouse-hover" (click)="onDelete(p.id)" [style.cursor]="'pointer'"></i>
-                            </span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <app-payments-table [showDetails]="true"
+                [payments]="service.currentPayments" 
+                (modifyPayment)="populateForm($event)" 
+                (deletePayment)="onDelete($event)" />
         </div>
 
         <div class="col-3 offset-1">
-            <button class="btn btn-lg btn-success mb-3 w-100" (click)="showUserPaymentHistory()">
-                Podsumowanie
-            </button>
-            <button class="btn btn-lg btn-success mb-3 w-100" (click)="onAddNewUserPaymentMethod()">
-                Dodaj konto
-            </button>
-
-            <app-user-payment-accounts></app-user-payment-accounts>
+            <button class="big w-100" (click)="showUserPaymentHistory()"> Podsumowanie </button>
+            <button class="big w-100" (click)="onAddNewUserPaymentMethod()"> Dodaj konto </button>
+            <app-user-payment-accounts />
         </div>
     </div>
 </div>

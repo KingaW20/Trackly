@@ -1,50 +1,17 @@
 <app-month-year *ngIf="ready" [service]="uphService" [list]="pService.allPayments"></app-month-year>
 
 <ul class="list-group" *ngIf="uphService.userPaymentHistories.length > 0">
-    <div class="list-group-item justify-content-between align-items-start mb-4 m-3 border px-4 py-3 rounded-5 mouse-hover" 
+    <div id="allAccounts" class="list-group-item mouse-hover" 
         (click)="chooseAccount(Values.ALL_ACCOUNTS)" title="Pokaż szczegóły">
-        <app-account-history [userAccountBalance]="uphService.fullBalance" [choosedAccountName]="choosedAccountName"></app-account-history>
+        <app-account-history [userAccountBalance]="uphService.fullBalance" [choosedAccountName]="choosedAccountName" />
     </div>
 
-    <li class="list-group-item justify-content-between align-items-start mb-2 border px-4 py-3 rounded-3 mouse-hover" 
-        *ngFor="let b of uphService.balances" (click)="chooseAccount(b.paymentMethodName)" title="Pokaż szczegóły">
+    <li class="list-group-item mouse-hover" *ngFor="let b of uphService.balances" 
+        (click)="chooseAccount(b.paymentMethodName)" title="Pokaż szczegóły">
 
-        <app-account-history [userAccountBalance]="b" [choosedAccountName]="choosedAccountName"></app-account-history>
+        <app-account-history [userAccountBalance]="b" [choosedAccountName]="choosedAccountName" />
         
-        <div class="w-100 d-block" *ngIf="choosedAccountName == b.paymentMethodName && b.payments.length > 0">
-            <table class="w-100 table table-hover table-bordered border-primary align-middle">
-                <thead>
-                    <tr>
-                        <th scope="col">Data</th>
-                        <th scope="col">Kategoria</th>
-                        <th scope="col">Opis</th>
-                        <th scope="col">Kwota</th>
-                    </tr>
-                </thead>
-                <tbody class="table-group-divider">
-                    <tr *ngFor="let p of b.payments"
-                        [ngClass]="{'table-danger': p.isOutcome, 'table-success': !p.isOutcome}">
-                        <th scope="row" [style.cursor]="'pointer'" 
-                            [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.date}} 
-                        </th>
-                        <td [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.paymentCategoryName}} 
-                        </td>
-                        <td [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}"> 
-                            {{p.description}} 
-                        </td>
-                        <td [style.cursor]="'pointer'"
-                        [ngClass]="{'text-danger': p.isOutcome, 'text-success': !p.isOutcome}">  
-                            {{p.isOutcome ? "-" : "+"}}{{p.sum}} 
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>        
-        
+        <app-payments-table [payments]="b.payments" class="w-100 d-block" 
+            *ngIf="choosedAccountName == b.paymentMethodName && b.payments.length > 0"/>
     </li>
 </ul>
-

@@ -16,16 +16,17 @@ import { TvSerieEpisodeService } from '../../shared/services/movies/tv-serie-epi
 import { TvSerieService } from '../../shared/services/movies/tv-serie.service';
 import { UserProgramService } from '../../shared/services/movies/user-program.service';
 import { Values } from '../../shared/constants';
+import { BigBtnComponent } from '../../shared/components/controls/big-btn/big-btn.component';
 
 @Component({
   selector: 'app-program-form',
   standalone: true,
   imports: [ 
-    CommonModule, FormsModule, MatAutocompleteModule,
+    CommonModule, FormsModule, MatAutocompleteModule, BigBtnComponent,
     MatDatepickerModule, MatFormFieldModule, MatInputModule
   ],
   templateUrl: './program-form.component.html',
-  styles: ``,
+  styleUrl: './program-form.component.css',
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     provideNativeDateAdapter()

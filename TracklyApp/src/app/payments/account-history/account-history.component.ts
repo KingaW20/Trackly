@@ -1,37 +1,19 @@
 import { Component, Input } from '@angular/core';
-import { ChartType } from 'ng-apexcharts';
 import { UserAccountBalance } from '../../shared/models/payments/user-account-balance.model';
 import { CommonModule } from '@angular/common';
-import { NgApexchartsModule } from 'ng-apexcharts';
+import { KeyValComponent } from '../../shared/components/key-val/key-val.component';
+import { ChartComponent } from '../../shared/components/chart/chart.component';
 
 @Component({
   selector: 'app-account-history',
   standalone: true,
-  imports: [ 
-    CommonModule, NgApexchartsModule 
-  ],
+  imports: [ CommonModule, KeyValComponent, ChartComponent ],
   templateUrl: './account-history.component.html',
   styles: ``
 })
 export class AccountHistoryComponent {
   @Input() userAccountBalance!: UserAccountBalance;
   @Input() choosedAccountName!: string;
-
-  public chartOptions = {
-    // series: [100, 200, 300, 400],
-    chart: {
-      type: 'pie' as ChartType,
-      width: '325',
-    },
-    // labels: ['A', 'B', 'C', 'D'],
-    responsive: [{
-      breakpoint: 480,
-      options: {
-        chart: { width: '100%' },
-        legend: { position: 'bottom' },
-      }
-    }],
-  };
 
   getSeries(data: Record<string, number>) {
     return Object.values(data);

@@ -10,13 +10,15 @@ import { PaymentMethodService } from '../../shared/services/payments/payment-met
 import { UserPaymentMethod } from '../../shared/models/payments/user-payment-method.model';
 import { UserPaymentMethodService } from '../../shared/services/payments/user-payment-method.service';
 import { MAT_DATE_LOCALE, provideNativeDateAdapter } from '@angular/material/core';
+import { MatActionsComponent } from '../../shared/components/controls/mat-actions/mat-actions.component';
+import { MatFormContainerComponent } from '../../shared/components/controls/mat-form-container/mat-form-container.component';
 
 @Component({
   selector: 'app-user-payment-method',
   standalone: true,
-  imports: [ FormsModule, MatFormFieldModule, MatInputModule, CommonModule, MatDatepickerModule ],
+  imports: [ FormsModule, MatFormFieldModule, MatInputModule, 
+    CommonModule, MatDatepickerModule, MatActionsComponent, MatFormContainerComponent ],
   templateUrl: './user-payment-method.component.html',
-  styles: ``,
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'pl-PL' },
     provideNativeDateAdapter()

@@ -1,0 +1,6 @@
+.center-container {
+    display: flex;
+    flex-wrap: wrap;        /* Pozwól elementom zawijać się do kolejnych wierszy */
+    justify-content: left;  /* Poziom */
+    align-items: center;    /* Pion */
+}
